@@ -1,0 +1,18 @@
+#TareasDiv {
+    background-image: "../Img/TareasBackGround.jpg";
+    background-color: bisque;
+}
+
+.tarea {
+    margin: .5em;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
