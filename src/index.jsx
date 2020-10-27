@@ -13,9 +13,6 @@ import NuevoEquipo from './NuevoEquipo';
 
 
 class App extends Component{
-
-   
-
     render(){
         return(
             <Router>

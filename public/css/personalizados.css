@@ -16,3 +16,11 @@
 .table-wrapper-scroll-y {
     display: block;
 }
+
+#errCorreo {
+    display: none;
+}
+
+#errPass {
+    display: none;
+}

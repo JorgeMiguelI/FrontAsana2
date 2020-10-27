@@ -70,7 +70,7 @@ export default class Registro extends Component {
             document.getElementById("ProgressBar").style.width=300;
             $.ajax({
                 Origin: "http://localhost:3000",
-                url: 'http://localhost:8080/registro',
+                url: 'http://localhost:4000/registro',
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -124,7 +124,7 @@ export default class Registro extends Component {
                                                 <form id="Principal">
                                                     
                                                         <div className="progress">
-                                                        <   div id="ProgressBar" className="progress-bar bg-success" role="progressbar" style={this.getArea()} aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div id="ProgressBar" className="progress-bar bg-success" role="progressbar" style={this.getArea()} ></div>
                                                         </div>
                                                     
                                                     <div className="form-row">
@@ -151,7 +151,7 @@ export default class Registro extends Component {
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <label className="small mb-1" htmlFor="inputEmailAddress">Email</label>
-                                                                <input className="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Escriba su correo" name="correo" />
+                                                                <input className="form-control py-4" id="inputEmailAddress" type="email"  placeholder="Escriba su correo" name="correo" />
                                                             </div>
                                                         </div>
                                                     </div>

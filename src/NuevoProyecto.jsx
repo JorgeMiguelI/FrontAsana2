@@ -83,7 +83,7 @@ export default class NuevoProyecto extends Component {
         $.ajax({
             context:this,
             Origin: "http://localhost:3000",
-            url: 'http://localhost:8080/proyecto',
+            url: 'http://localhost:4000/proyecto',
             type: 'POST',
             data: formData,
             async: false,
@@ -111,7 +111,7 @@ export default class NuevoProyecto extends Component {
         $.ajax({
             context:this,
             Origin: "http://localhost:3000",
-            url: 'http://localhost:8080/proyecto',
+            url: 'http://localhost:4000/proyecto',
             type: 'POST',
             data: formData,
             async: false,
@@ -130,16 +130,12 @@ export default class NuevoProyecto extends Component {
     ajax3=()=>{
         console.log("--------Guardado--------");
 
-        var formData = new FormData($("#Principal")[0]);
-
-        
-
-        
+        var formData = new FormData($("#Principal")[0]); 
         formData.append("Operation", 3);
 
         $.ajax({
             Origin: "http://localhost:3000",
-            url: 'http://localhost:8080/proyecto',
+            url: 'http://localhost:4000/proyecto',
             type: 'POST',
             data: formData,
             async: false,

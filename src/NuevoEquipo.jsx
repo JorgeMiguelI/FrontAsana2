@@ -50,7 +50,7 @@ export default class NuevoEquipo extends Component {
         $.ajax({
             context: miembros,
             Origin: "http://localhost:3000",
-            url: 'http://localhost:8080/equipo',
+            url: 'http://localhost:4000/equipo',
             type: 'POST',
             data: formData,
             async: false,
@@ -231,7 +231,7 @@ export default class NuevoEquipo extends Component {
 
         $.ajax({
             Origin: "http://localhost:3000",
-            url: 'http://localhost:8080/equipo',
+            url: 'http://localhost:4000/equipo',
             type: 'POST',
             data: formData,
             async: false,
@@ -334,36 +334,12 @@ export default class NuevoEquipo extends Component {
                                             </table>
 
                                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     </div>
-
-
                                 </div>
-
-
-
-
                                 <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={() => { this.ajax2() }}>Crear equipo</button></div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         )

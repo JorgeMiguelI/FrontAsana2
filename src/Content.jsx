@@ -11,11 +11,9 @@ export default class Content extends Component {
         switch (this.props.Component) {
             case 1:
                 return <h1>Home</h1>;
-                break;
         
             case 2:
                 return <MisTareas/>
-                break;
         }
     }
 
