@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import MisTareas from './MisTareas';
 import NuevoProyecto from './NuevoProyecto';
 import NuevoEquipo from './NuevoEquipo';
-
+import RegistroU from './RegistroU';
 
 
 
@@ -19,7 +19,7 @@ class App extends Component{
                 <Route exact path="/" component={Login}/>
                 
                 <Route path="/principal" component={Principal}/>
-                <Route path="/registro" component={Registro}/>
+                <Route path="/registro" component={RegistroU}/>
                 <Route path="/MisTareas" component={MisTareas}/>
                 <Route path="/NuevoProyecto" component={NuevoProyecto}/>
                 <Route path="/NuevoEquipo" component={NuevoEquipo}/>

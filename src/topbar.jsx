@@ -43,8 +43,8 @@ export default class Topbar extends Component {
                 </ul>
                 <ul className="navbar-nav ml-auto ml-md-0">
                     <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" id="userDropdown" role="button"  aria-haspopup="true" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
-                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a className="nav-link dropdown-toggle" id="userDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
+                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown1">
                             <a className="dropdown-item">Settings</a>
                             <a className="dropdown-item" >Activity Log</a>
                             <div className="dropdown-divider"></div>
