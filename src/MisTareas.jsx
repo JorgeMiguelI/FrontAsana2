@@ -3,6 +3,7 @@ import TareasProximas from './TareasProximas'
 import TareasRecientes from './TareasRecientes'
 import Barra from './bar'
 import Topbar from './topbar'
+import { Link } from 'react-router-dom'
 
 export default class MisTareas extends Component {
     render() {
@@ -22,7 +23,7 @@ export default class MisTareas extends Component {
                         <div className="container" style={{ marginTop: ".5" }}>
                             <div className="row">
                                 <div className="col-sm-1"></div>
-                                <div className="col-sm-8"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button> </div>
+                                <div className="col-sm-8"><Link to="/NuevaTarea"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button></Link> </div>
 
                             </div>
                             <div className="row">

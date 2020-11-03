@@ -9,6 +9,7 @@ import MisTareas from './MisTareas';
 import NuevoProyecto from './NuevoProyecto';
 import NuevoEquipo from './NuevoEquipo';
 import RegistroU from './RegistroU';
+import NuevaTarea from './NuevaTarea';
 
 
 
@@ -23,6 +24,7 @@ class App extends Component{
                 <Route path="/MisTareas" component={MisTareas}/>
                 <Route path="/NuevoProyecto" component={NuevoProyecto}/>
                 <Route path="/NuevoEquipo" component={NuevoEquipo}/>
+                <Route path="/NuevaTarea" component={NuevaTarea}/>
             </Router>
             
         

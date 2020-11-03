@@ -36,6 +36,7 @@ export default class Topbar extends Component {
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <Link className="dropdown-item" to="/NuevoProyecto">Nuevo Proyecto</Link>
                             <Link className="dropdown-item" to="/NuevoEquipo">Nuevo Equipo</Link>
+                            <Link className="dropdown-item" to="/NuevaTarea">Nueva Tarea</Link>
                             <a className="dropdown-item" >Nuevo Mensaje</a>
                             
                         </div>
