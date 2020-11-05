@@ -1,5 +1,7 @@
 import axios from 'axios';
-import React, {  useEffect  } from 'react'
+import React, { useEffect } from 'react';
+import swal from 'sweetalert';
+import { useForm } from "react-hook-form";
 
 import Barra from './bar';
 import NuevaSubTarea from './NuevaSubTarea';
@@ -11,129 +13,206 @@ import ReactDOM from 'react-dom';
 
 export default function NuevaTarea(props) {
 
-    var miembros;
-
-    useEffect(() => {
-       llenarForm();
+    const { register, errors } = useForm({
+        mode: 'onBlur',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: "firstError",
+        shouldFocusError: true,
+        shouldUnregister: true,
     })
 
-    const guardar=async()=>{
-        if(document.getElementById("Tareas").hasChildNodes()){
-            console.log(document.getElementById("Tareas").childElementCount());
+    var miembros;
+    let opcionSelected;
+    let subtareas;
+    useEffect(() => {
+        llenarForm();
+    })
+
+    const guardar = async () => {
+        subtareas = new Array();
+        let idTarea;
+        if (document.getElementById("Tareas").hasChildNodes()) {
+            let Tareas = document.getElementById("Tareas").childElementCount;
+            console.log(document.getElementById("Tareas").childElementCount);
+            for (let i = 1; i <= Tareas; i++) {
+                idTarea = document.getElementsByClassName(i)[0].value;
+                subtareas.push(idTarea);
+            }
+
+
+            console.log(subtareas);
         }
 
 
+        let info = {
+            nombre: document.getElementById("inputNombre").value,
+            proyecto: document.getElementById("selectP").value,
+            encargado: document.getElementById("selectM").value,
+            fecha_entrega: document.getElementById("inputDate").value,
+            prioridad: document.getElementById("selectPr").value,
+            estado: "A",
+            descripcion: document.getElementById("inputDescripcion").value,
+            observaciones: [document.getElementById("inputComentarios").value],
+            subtareas: subtareas
+        }
+        const res = await axios.post("http://localhost:4000/addTarea", {
+            data: info
+        })
+        if (res.data.msg == "error") {
 
+            swal({
+                title: "Error",
+                icon: "warning",
+                text: "No se pudo Registrar la Tarea",
+                button: "Cerrar"
+            });
+
+
+        } else {
+            //Notificar registro exitoso
+            props.history.push("/principal");
+        }
     }
 
-    const CrearNuevaSubTarea=()=>{
+
+
+
+
+
+
+
+
+    const CrearNuevaSubTarea = () => {
         console.clear();
         console.log("NuevaSubTarea");
 
-        var divTareas=document.getElementById("Tareas");
-        var id=0;
-        if(divTareas.hasChildNodes()){
-            id=parseInt(divTareas.lastChild.id);
+        let divTareas = document.getElementById("Tareas");
+        let id = 0;
+        if (divTareas.hasChildNodes()) {
+            id = parseInt(divTareas.lastChild.id);
             console.log(id);
-        }else{
-            
+        } else {
+
         }
 
 
 
-        
 
 
-        
-        var nuevaSubTarea=document.createElement("div");
-        nuevaSubTarea.className="card-body";
-        nuevaSubTarea.setAttribute("id",id+1);
+
+
+        let nuevaSubTarea = document.createElement("div");
+        nuevaSubTarea.className = "card-body";
+        nuevaSubTarea.setAttribute("id", id + 1);
 
         divTareas.appendChild(nuevaSubTarea);
-        var subtarea=<NuevaSubTarea idST={id+1} miembros={miembros}/>
-        
-        ReactDOM.render(subtarea,nuevaSubTarea);
-    
+        let subtarea = <NuevaSubTarea idST={id + 1} miembros={miembros} />
+
+        ReactDOM.render(subtarea, nuevaSubTarea);
+
 
     }
 
-    const guardarSubTarea=async()=>{
-        
-        let info= {nombre: "Crear APis", estado: "P", fecha_entrega:"04-09-1997", encargado: "5f9771fdec010356783eaa38", creador: "5f9b1c27ad4ba3290ccb9dba"};
-        const res=await axios.post("http://localhost:4000/addSubtarea", {
-            data: info
-        })
-        if(res.data.msg=="error"){
-            //Mensaje de error
-        }else{
-            //Notificar registro exitoso
-            const IdSubtareaRegistrada= res.data.idSubtarea; //Id de la subtarea registrada
-            console.log(IdSubtareaRegistrada);
-        }
-    }
 
-    const llenaSelect2=async()=>{
 
-        document.getElementById("BtnNST").classList.remove("d-none");
+    const limpiarSelect = () => {
+        let select = document.getElementById("selectM");
+        //borramos sus hijos para poder rellenar
+        if (select.hasChildNodes()) {
+            let i;
+            for (i = 0; i < select.childElementCount; i++) {
 
-        var idProyecto =document.getElementById("selectP").value;
-        const res=await axios.get("http://localhost:4000/GetMiembros/"+idProyecto)
-        const data= res.data;
-        if(data.msg=="error"){
-            console.log("Hay un error");
-        }else{
-            console.log(data);
-
-            var select=document.getElementById("selectM");
-            //borramos sus hijos para poder rellenar
-            if(select.hasChildNodes()){
-                var i;
-                for(i=0;i<select.childElementCount;i++){
-                    
-                    select.removeChild(select.childNodes[i]);
-                }
-    
+                select.removeChild(select.childNodes[i]);
             }
 
-            var option;
-            console.clear();
-            console.log("---------- miembros-----");
-            console.log(data);
-            miembros=JSON.stringify(data);
-            data.map((item)=>{
-                option=document.createElement("option");
-                option.appendChild(document.createTextNode(item.nombre));
-                option.setAttribute("value",item._id);
-                select.appendChild(option);
+        }
+
+    }
+
+    const llenaSelect2 = async () => {
+
+
+        if (document.getElementById("Tareas").hasChildNodes()) {
+            swal({
+                title: "Error",
+                text: "No se puede cambiar mientras tenga subtareas",
+                icon: "warning",
+                button: "Cerrar",
             });
+            document.getElementById("selectP").setAttribute("value", opcionSelected);
+            document.getElementById("selectP").value = opcionSelected;
+        } else {
+            document.getElementById("BtnNST").classList.remove("d-none");
+
+            let idProyecto = document.getElementById("selectP").value;
+            opcionSelected = idProyecto;
+            const res = await axios.get("http://localhost:4000/GetMiembros/" + idProyecto)
+            const data = res.data;
+            if (data.msg == "error") {
+                console.log("Hay un error");
+            } else {
+                console.log(data);
+
+                let select = document.getElementById("selectM");
+                //borramos sus hijos para poder rellenar
+                if (select.hasChildNodes()) {
+                    let i;
+                    for (i = 0; i < select.childElementCount; i++) {
+
+                        select.removeChild(select.childNodes[i]);
+                    }
+
+                }
+                console.log(select);
+
+                let option;
+                console.clear();
+                console.log("---------- miembros-----");
+                limpiarSelect();
+                console.log(data);
+                miembros = JSON.stringify(data);
+                data.map((item) => {
+                    option = document.createElement("option");
+                    option.appendChild(document.createTextNode(item.nombre));
+                    option.setAttribute("value", item._id);
+                    select.appendChild(option);
+                });
 
 
+
+            }
 
         }
+        console.log(document.getElementById("selectM").value);
+
+
 
 
     }
 
 
-    const llenarForm=async()=>{
-        let idEmpresa=localStorage.getItem("IdEmpresa");
+    const llenarForm = async () => {
+        let idEmpresa = localStorage.getItem("IdEmpresa");
         console.log(idEmpresa);
-        const res= await axios.get("http://localhost:4000/GetProyectos/"+idEmpresa) 
-        const data=res.data;
-        if(data.msg==="Error"){
+        const res = await axios.get("http://localhost:4000/GetProyectos/" + idEmpresa)
+        const data = res.data;
+        if (data.msg === "Error") {
             console.log("Erro trallendo proyectos");
-        }else{
-            var SelectP=document.getElementById("selectP");
+        } else {
+            let SelectP = document.getElementById("selectP");
 
-            var option;
+            let option;
             console.log(data);
-            data.map((item)=>{
-                option=document.createElement("option");
+            data.map((item) => {
+                option = document.createElement("option");
                 option.appendChild(document.createTextNode(item.nombre));
-                option.setAttribute("value",item._id);
+                option.setAttribute("value", item._id);
                 SelectP.appendChild(option);
             });
-            
+
 
 
         }
@@ -165,8 +244,15 @@ export default function NuevaTarea(props) {
                                 <div className="form-row">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="inputNombre">Nombre</label>
-                                            <input className="form-control py-4" id="inputNombre" type="text" placeholder="Nombre del equipo" name="nombre" />
+                                            <label className="small mb-1" htmlFor="inputNombre">Nombre<font color="red">*</font></label>
+                                            <input className="form-control py-4" id="inputNombre" type="text" placeholder="Nombre del equipo" name="nombreT" ref={register({
+                                                required: true,
+                                                minLength: 1,
+
+                                            })} />
+                                            {errors.nombreT?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                            {errors.nombreT?.type === "minLength" && (<small className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+
                                         </div>
                                     </div>
 
@@ -174,9 +260,9 @@ export default function NuevaTarea(props) {
                                 <div className="form-row">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="selectP">Proyecto</label>
+                                            <label className="small mb-1" htmlFor="selectP">Proyecto<font color="red">*</font></label>
                                             <select name="proyecto" id="selectP" className="form-control" onChange={() => {
-                                                 llenaSelect2()
+                                                llenaSelect2()
                                             }}>
                                                 <option value="null">Seleccione...</option>
                                             </select>
@@ -184,7 +270,7 @@ export default function NuevaTarea(props) {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="selectM">Para: </label>
+                                            <label className="small mb-1" htmlFor="selectM">Para:<font color="red">*</font> </label>
                                             <select name="responsable" id="selectM" className="form-control">
                                                 <option value="null">Seleccione...</option>
                                             </select>
@@ -199,14 +285,19 @@ export default function NuevaTarea(props) {
                                 <div className="form-row">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="inputDate">Fecha de Entrega</label>
-                                            <input className="form-control py-4" id="inputDate" type="date" name="fecha" />
+                                            <label className="small mb-1" htmlFor="inputDate">Fecha de Entrega<font color="red">*</font></label>
+                                            <input className="form-control py-4" id="inputDate" type="date" name="fecha" ref={register({
+                                                required: true,
+                                                
+
+                                            })}/>
+                                            {errors.fecha?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
                                         </div>
 
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="selectP">Prioridad: </label>
+                                            <label className="small mb-1" htmlFor="selectP">Prioridad: <font color="red">*</font></label>
                                             <select name="prioridad" id="selectPr" className="form-control">
                                                 <option value="null">Seleccione</option>
                                                 <option value="Alta">Alta</option>
@@ -221,8 +312,14 @@ export default function NuevaTarea(props) {
                                 <div className="form-row">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="inputDescripcion">Descripción</label>
-                                            <textarea className="form-control py-4" id="inputDescripcion" placeholder="Descripción..." name="descripcion"></textarea>
+                                            <label className="small mb-1" htmlFor="inputDescripcion">Descripción<font color="red">*</font></label>
+                                            <textarea className="form-control py-4" id="inputDescripcion" placeholder="Descripción..." name="descripcion"ref={register({
+                                                required: true,
+                                                minLength: 1,
+
+                                            })} ></textarea>
+                                            {errors.descripcion?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                            {errors.descripcion?.type === "minLength" && (<small className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
                                         </div>
                                     </div>
                                 </div>
@@ -240,21 +337,21 @@ export default function NuevaTarea(props) {
                                     <h6>Sub Tareas</h6>
                                 </div>
                             </div>
-                            <div id="Tareas" className="card" style={{marginBottom:"1em"}}>
-                                
+                            <div id="Tareas" className="card" style={{ marginBottom: "1em" }}>
+
 
                             </div>
                             <div className="form-row">
                                 <div className="col-md-6">
-                                    <button  id="BtnNST" type="button" className="btn btn-secondary d-none" onClick={CrearNuevaSubTarea}><i className="fas fa-plus"></i>Agregar Sub Tarea</button>
+                                    <button id="BtnNST" type="button" className="btn btn-secondary d-none" onClick={CrearNuevaSubTarea}><i className="fas fa-plus"></i>Agregar Sub Tarea</button>
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label className="small mb-1" htmlFor="inputComentarios">Comentarios</label>
-                                            <textarea className="form-control py-4" id="inputComentarios" placeholder="Comentarios..." name="comentarios" form="Principal"></textarea>
-                                        </div>
+                                    <div className="form-group">
+                                        <label className="small mb-1" htmlFor="inputComentarios">Observaciones</label>
+                                        <textarea className="form-control py-4" id="inputComentarios" placeholder="Observaciones..." name="comentarios" form="Principal"></textarea>
+                                    </div>
                                 </div>
                             </div>
 

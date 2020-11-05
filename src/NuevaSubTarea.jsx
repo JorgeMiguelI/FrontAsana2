@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { Component, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 import Barra from './bar';
 import Topbar from './topbar';
 
@@ -22,12 +23,12 @@ export default class NuevaSubTarea extends Component {
     llenaSelect2=async()=>{
       
 
-            var select=document.getElementById("selectM1"+this.props.idST);
-            var option;
+            let select=document.getElementById("selectM1"+this.props.idST);
+            let option;
 
             //borramos sus hijos para poder rellenar
             if(select.hasChildNodes()){
-                var i;
+                let i;
                 for(i=0;i<select.childElementCount;i++){
                     
                     select.removeChild(select.childNodes[i]);
@@ -36,7 +37,8 @@ export default class NuevaSubTarea extends Component {
             }
 
             console.log("---------- subtarea-----");
-            var miembros=JSON.parse(this.props.miembros)
+            let miembros=JSON.parse(this.props.miembros)
+
             console.log(miembros);
             
             miembros.map((item)=>{
@@ -53,16 +55,48 @@ export default class NuevaSubTarea extends Component {
 
     }
 
+    EliminarSTBD=async()=>{
+        let idTarea= document.getElementsByClassName(this.props.idST)[0].value;
+        const res= await axios.delete("http://localhost:4000/deleteTarea/"+idTarea)
+        const data= await res.data;
+        if(data.msg=="Error"){
+            alert("No se pudo eliminar la Tarea");
+        }else{
+            if(data.deletedCount==0){
+                swal({
+                    title:"Error",
+                    text:"La tarea que se quiere eliminar no se encuentra registrada",
+                    icon:"warning",
+                    button:"Cerrar"}
+                    );
+            }else if(data.deletedCount>0){
+                console.log(data);
+                //alert("Se ha eliminado la tarea");
+            }
+        }
+        
+    }
+
+
+
     EliminarC=(event)=>{
-        var padre=event.target.parentElement;
-        var padre1=padre.parentElement;
+        
+
+        if( document.getElementById("BtnG"+this.props.idST).classList.contains("d-none")){
+            this.EliminarSTBD();
+        }
+        let padre=event.target.parentElement;
+        let padre1=padre.parentElement;
         padre1.remove();
+
+
+
     }
 
     guardar=async()=>{
         document.getElementById("BtnG"+this.props.idST).classList.add("d-none");
-        let nombre=document.getElementById("nombre").value;
-        let fecha=document.getElementById("fecha").value;
+        let nombre=document.getElementById("nombre"+this.props.idST).value;
+        let fecha=document.getElementById("fecha"+this.props.idST).value;
         let responsable=document.getElementById("selectM1"+this.props.idST).value;
         let creador=localStorage.getItem("ID");
 
@@ -93,14 +127,14 @@ export default class NuevaSubTarea extends Component {
                         <div className="input-group-prepend">
                             <span className="input-group-text" id="basic-addon1"><button className="btn  btn-ligh"><i className="fas fa-ellipsis-v"></i></button>                  <button className="btn  btn-ligh"><i className="far fa-check-circle"></i></button></span>
                         </div>
-                        <input type="text" className="form-control" placeholder="Tarea" aria-label="Username" aria-describedby="basic-addon1" id="nombre"/>
+                        <input type="text" className="form-control" placeholder="Tarea" aria-label="Username" aria-describedby="basic-addon1" id={"nombre"+this.props.idST}/>
 
                     </div>
 
                 </div>
                 <div className="col-md-2" >
 
-                    <input type="date" name="fecha" className="form-control" id="fecha"/>
+                    <input type="date" name="fecha" className="form-control" id={"fecha"+this.props.idST}/>
 
 
 
