@@ -206,6 +206,30 @@ export default function NuevaTarea(props) {
 
             let option;
             console.log(data);
+
+
+            if (SelectP.hasChildNodes()) {
+                let i;
+                for (i = 0; i < SelectP.childElementCount; i++) {
+
+                    SelectP.removeChild(SelectP.childNodes[i]);
+                }
+
+            }
+
+            if (SelectP.hasChildNodes()) {
+                let i;
+                for (i = 0; i < SelectP.childElementCount; i++) {
+
+                    SelectP.removeChild(SelectP.childNodes[i]);
+                }
+
+            }
+
+
+
+
+
             data.map((item) => {
                 option = document.createElement("option");
                 option.appendChild(document.createTextNode(item.nombre));

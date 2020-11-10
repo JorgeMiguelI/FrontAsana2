@@ -53,7 +53,7 @@ export default class Principal extends Component {
 
                     <div id="layoutSidenav_content">
                    
-                        <TareasProximas/>
+                        
                     </div>
 
                 </div>

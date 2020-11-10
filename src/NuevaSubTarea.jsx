@@ -35,18 +35,21 @@ export default class NuevaSubTarea extends Component {
                 }
     
             }
-
+            console.log(this.props.miembros);
             console.log("---------- subtarea-----");
-            let miembros=JSON.parse(this.props.miembros)
+            if(this.props.miembros!="" && this.props.miembros){
+                let miembros=JSON.parse(this.props.miembros)
 
-            console.log(miembros);
+                console.log(miembros);
+                
+                miembros.map((item)=>{
+                    option=document.createElement("option");
+                    option.appendChild(document.createTextNode(item.nombre));
+                    option.setAttribute("value",item._id);
+                    select.appendChild(option);
+                });
+            }
             
-            miembros.map((item)=>{
-                option=document.createElement("option");
-                option.appendChild(document.createTextNode(item.nombre));
-                option.setAttribute("value",item._id);
-                select.appendChild(option);
-            });
 
 
 
@@ -127,7 +130,7 @@ export default class NuevaSubTarea extends Component {
                         <div className="input-group-prepend">
                             <span className="input-group-text" id="basic-addon1"><button className="btn  btn-ligh"><i className="fas fa-ellipsis-v"></i></button>                  <button className="btn  btn-ligh"><i className="far fa-check-circle"></i></button></span>
                         </div>
-                        <input type="text" className="form-control" placeholder="Tarea" aria-label="Username" aria-describedby="basic-addon1" id={"nombre"+this.props.idST}/>
+                        <input type="text" className="form-control" placeholder="Tarea" aria-label="Tarea" aria-describedby="basic-addon1" id={"nombre"+this.props.idST}/>
 
                     </div>
 

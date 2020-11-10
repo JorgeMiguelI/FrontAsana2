@@ -2,6 +2,27 @@ import React, { Component } from 'react'
 import Tarea from './Tarea'
 
 export default class TareasProximas extends Component {
+    items;
+    componentDidMount() {
+
+        if (this.props.tareas != "") {
+
+            //this.items="Revisando";
+            let tareas = JSON.parse(this.props.tareas);
+            console.log(tareas);
+            this.items = tareas.map((item) =>
+                <Tarea idT={item._id} info={item} />
+            );
+        } else {
+            this.items = "No homeworks"
+        }
+        console.log(this.items);
+
+    }
+
+
+
+
     render() {
         return (
             <div className="card" style={{margin: ".7em"}}>
@@ -10,7 +31,11 @@ export default class TareasProximas extends Component {
                 </div>
 
                 <div id="multiCollapseExample2"  className="collapse multi-collapse">
-                    <Tarea/>
+                {
+                      JSON.parse(this.props.tareas).map((item) =>
+                            <Tarea idT={item._id} info={JSON.stringify(item)} />
+                         )
+                    }
                 </div>
                 
                 

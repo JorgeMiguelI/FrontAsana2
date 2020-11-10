@@ -10,7 +10,7 @@ import NuevoProyecto from './NuevoProyecto';
 import NuevoEquipo from './NuevoEquipo';
 import RegistroU from './RegistroU';
 import NuevaTarea from './NuevaTarea';
-
+import DetallesTarea from './DetallesTarea';
 
 
 class App extends Component{
@@ -25,6 +25,7 @@ class App extends Component{
                 <Route path="/NuevoProyecto" component={NuevoProyecto}/>
                 <Route path="/NuevoEquipo" component={NuevoEquipo}/>
                 <Route path="/NuevaTarea" component={NuevaTarea}/>
+                <Route path="/DetallesTarea" component={DetallesTarea}/>
             </Router>
             
         
