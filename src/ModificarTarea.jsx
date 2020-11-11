@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 
 
 
-export default function NuevaTarea(props) {
+export default function ModificarTarea(props) {
 
     const { register, errors } = useForm({
         mode: 'onBlur',
@@ -238,6 +238,11 @@ export default function NuevaTarea(props) {
                 SelectP.appendChild(option);
             });
 
+            console.log(props.match.params.info);
+            let info=JSON.parse(props.match.params.info);
+         
+            SelectP.value=info.proyecto;
+            document.getElementById("inputNombre").setAttribute("value",info.nombre)
 
 
         }
@@ -270,7 +275,7 @@ export default function NuevaTarea(props) {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="small mb-1" htmlFor="inputNombre">Nombre<font color="red">*</font></label>
-                                            <input className="form-control py-4" id="inputNombre" type="text" placeholder="Nombre de la tarea" name="nombreT" ref={register({
+                                            <input className="form-control py-4" id="inputNombre" type="text" placeholder="Nombre del equipo" name="nombreT" ref={register({
                                                 required: true,
                                                 minLength: 1,
 

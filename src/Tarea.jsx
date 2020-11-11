@@ -13,8 +13,8 @@ export default class Tarea extends Component {
     componentDidMount(){
         if(this.props.info!=""){
             this.info=JSON.parse(this.props.info);
-            document.getElementById(this.idName).setAttribute("value",this.info.nombre);
-            document.getElementById(this.idDate).setAttribute("value",this.info.fecha_entrega);
+            document.getElementById(this.idName).setAttribute("value",this.info.InfoTarea.nombre);
+            document.getElementById(this.idDate).setAttribute("value",this.info.InfoTarea.fecha_entrega);
         }
         
     }
@@ -25,7 +25,7 @@ export default class Tarea extends Component {
         let divDetallesTareas=document.getElementById("DetallesTarea");
        
 
-        console.log(this.props.info);
+        console.log(JSON.parse(this.props.info));
         let Detalles = <DetallesTarea info={this.props.info}/>
 
        

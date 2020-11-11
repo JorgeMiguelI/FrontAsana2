@@ -11,7 +11,7 @@ import NuevoEquipo from './NuevoEquipo';
 import RegistroU from './RegistroU';
 import NuevaTarea from './NuevaTarea';
 import DetallesTarea from './DetallesTarea';
-
+import ModificarTarea from './ModificarTarea';
 
 class App extends Component{
     render(){
@@ -26,6 +26,7 @@ class App extends Component{
                 <Route path="/NuevoEquipo" component={NuevoEquipo}/>
                 <Route path="/NuevaTarea" component={NuevaTarea}/>
                 <Route path="/DetallesTarea" component={DetallesTarea}/>
+                <Route path="/EditarTarea/:info" component={ModificarTarea}/>
             </Router>
             
         

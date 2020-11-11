@@ -102,8 +102,8 @@ export default class NuevaSubTarea extends Component {
         let fecha=document.getElementById("fecha"+this.props.idST).value;
         let responsable=document.getElementById("selectM1"+this.props.idST).value;
         let creador=localStorage.getItem("ID");
-
-        let info= {nombre: nombre, estado: "A", fecha_entrega:fecha, encargado: responsable, creador: creador};
+        let proyecto=this.props.proyecto;
+        let info= {nombre: nombre, estado: "A", fecha_entrega:fecha, encargado: responsable, creador: creador,fecha_publicacion:new Date(),proyecto:proyecto};
         
         const res=await axios.post("http://localhost:4000/addSubtarea", {
             data: info
