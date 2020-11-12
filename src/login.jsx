@@ -60,7 +60,8 @@ function Login(props){
                 button: "Cerrar",
               });
         }else{
-            props.history.push("/principal");
+           // console.log(props);
+           props.history.push("/principal");
         }
         console.log(data);
 
@@ -100,18 +101,21 @@ function Login(props){
                                                     </div>
                                                     <div class="form-group">
                                                         <input type="password" class="form-control form-control-user"
-                                                            id="exampleInputPassword" placeholder="Contraseña"/>
+                                                            id="exampleInputPassword" placeholder="Contraseña"  name="password" onChange={handleInputChange}/>
+                                                            <span className="alert alert-danger" role="alert" id="errPass" >
+                                                    
+                                                    </span>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox small">
-                                                            <input type="checkbox" class="custom-control-input" id="customCheck"/>
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck" />
                                                             <label class="custom-control-label" for="customCheck">Remember
                                                                 Me</label>
                                                         </div>
                                                     </div>
-                                                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                                    <button class="btn btn-primary btn-user btn-block" type="submit">
                                                         Login
-                                                    </a>
+                                                    </button>
                                                     <hr/>
                                                     <a href="index.html" class="btn btn-google btn-user btn-block">
                                                         <i class="fab fa-google fa-fw"></i> Login with Google

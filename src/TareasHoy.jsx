@@ -12,7 +12,7 @@ export default class TareasHoy extends Component {
             let tareas = JSON.parse(this.props.tareas);
             console.log(tareas);
             this.items = tareas.map((item) =>
-                <Tarea idT={item._id} info={item} />
+                <Tarea idT={item._id} info={item} history={this.props.history}/>
             );
         } else {
             this.items = "No homeworks"
@@ -26,7 +26,7 @@ export default class TareasHoy extends Component {
 
     render() {
         return (
-            <div className="card" style={{margin: ".7em"}}>
+            <div className="card" >
                 <div>
                   <a className="" data-toggle="collapse" href="#multiCollapseExample3" role="button" aria-expanded="true" aria-controls="multiCollapseExample3"><i className="fas fa-caret-down"></i>Tareas Hoy</a>
                 </div>
@@ -34,7 +34,7 @@ export default class TareasHoy extends Component {
                 <div id="multiCollapseExample3"  className="collapse multi-collapse">
                 {
                       JSON.parse(this.props.tareas).map((item) =>
-                            <Tarea idT={item.InfoTarea._id} info={JSON.stringify(item)} key={item.InfoTarea._id} />
+                            <Tarea idT={item.InfoTarea._id} info={JSON.stringify(item)} key={item.InfoTarea._id} history={this.props.history} />
                          )
                     }
                 </div>

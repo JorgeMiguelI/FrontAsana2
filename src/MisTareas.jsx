@@ -12,7 +12,10 @@ import ReactDOM from 'react-dom';
 export default class MisTareas extends Component {
 
     componentDidMount() {
+        console.clear();
+       // console.log(this.props);
         this.TraerMisTareas();
+        
     }
 
     TraerMisTareas = async () => {
@@ -42,13 +45,39 @@ export default class MisTareas extends Component {
                     data.map(async (item) => {
                         let fechaTarea = new Date(item.fecha_entrega);
                         let tiempo = fechaTarea.getDate() - fecha_actual;
-                        let documento;
-                        console.log("Tiempo= " + tiempo);
+                       
+                        let ListaTemp=new Array();
+                        let ListaSubtareas=new Array();
+                        
 
+                        //Buscamos el proyecto al cual se asigno cada una de las tareas
                         let resp = await axios.get("http://localhost:4000/GetProyectoById/" + item.proyecto);
                         let proyecto = await resp.data;
 
-                        let InfoTarea = { InfoTarea: item, InfoProyecto: proyecto }
+                         //Buscamos el encargado de la tarea
+                        const resp2= await axios.get("http://localhost:4000/GetColaborador/"+item.encargado);
+                        let encargado= await resp2.data;
+
+
+                        //Buscar subtareas que tiene las tareas
+                        for(let idSubtarea of item.subtareas){
+                            const resp3= await axios.get("http://localhost:4000/GetTarea/"+idSubtarea);
+                            let subtarea= await resp3.data;
+                            ListaTemp.push(subtarea)
+                        }
+                         //Buscamos al encargado para cada una de las subtareas
+                        for(let subtarea of ListaTemp){
+                            const resp4= await axios.get("http://localhost:4000/GetColaborador/"+subtarea.encargado)
+                            let encargadoSub= await resp4.data;
+                            ListaSubtareas.push({subtarea: subtarea, encargado: encargadoSub, tareaPadre: item});
+                        }
+
+                        let InfoTarea = { 
+                            InfoTarea: item, 
+                            InfoProyecto: proyecto,
+                            InfoEncargado:encargado,
+                            SubTareas:ListaSubtareas
+                        }
                         console.log(InfoTarea);
                         if (tiempo <= 0) {
                             Hoy.push(InfoTarea);
@@ -56,8 +85,8 @@ export default class MisTareas extends Component {
 
                         if (tiempo <= 4 && tiempo > 0) {
                             Recientes.push(InfoTarea);
-                            documento = data.indexOf(item);
-                            //data.splice(documento,1);
+                           
+                            
                         }
 
                         if (tiempo > 4) {
@@ -87,7 +116,7 @@ export default class MisTareas extends Component {
                     HoyDiv.setAttribute("id", "hoy")
                     divTareas.appendChild(HoyDiv);
 
-                    let TareasHoy1 = <TareasHoy tareas={JSON.stringify(Hoy)} />
+                    let TareasHoy1 = <TareasHoy tareas={JSON.stringify(Hoy)} history={this.props.history} />
                     ReactDOM.render(TareasHoy1, HoyDiv);
 
 
@@ -97,7 +126,7 @@ export default class MisTareas extends Component {
                     RecientesDiv.setAttribute("id", "recientes")
                     divTareas.appendChild(RecientesDiv);
 
-                    let TareasR = <TareasRecientes tareas={JSON.stringify(Recientes)} />
+                    let TareasR = <TareasRecientes tareas={JSON.stringify(Recientes)} history={this.props.history}/>
                     ReactDOM.render(TareasR, RecientesDiv);
 
                     //tareas para mas tarde
@@ -105,7 +134,7 @@ export default class MisTareas extends Component {
                     MasTardeDiv.setAttribute("id", "MasTarde")
                     divTareas.appendChild(MasTardeDiv);
 
-                    let TareasP = <TareasProximas tareas={JSON.stringify(MasTarde)} />
+                    let TareasP = <TareasProximas tareas={JSON.stringify(MasTarde)} history={this.props.history}/>
                     ReactDOM.render(TareasP, MasTardeDiv);
 
 
@@ -135,7 +164,7 @@ export default class MisTareas extends Component {
     }
 
 
-
+   
 
 
 
@@ -154,21 +183,21 @@ export default class MisTareas extends Component {
 
 
                     <div id="layoutSidenav_content">
-                        <div className="container" >
-                            <div className="row">
-                                <div className="col-sm-1"></div>
-                                <div className="col-sm-8"><Link to="/NuevaTarea"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button></Link> </div>
+                        <div className="containerT" >
+                            <div className="row" style={{"padding":"1rem"}}>
+                                
+                                <div className="col-sm-6"><Link to="/NuevaTarea"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button></Link> </div>
 
                             </div>
-                            <div className="row">
-                                <div className="col-md-8">
+                            <div className="row" style={{"padding":"1rem"}}>
+                                <div className="col-md-7">
                                     <div className="accordion" id="accordionExample" style={{ width: "80%" }}>
 
 
 
                                     </div>
                                 </div>
-                                <div className="col-md-4" id="DetallesTarea">
+                                <div className="col-md-5" id="DetallesTarea">
 
                                 </div>
                             </div>

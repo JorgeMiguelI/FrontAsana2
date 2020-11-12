@@ -26,7 +26,8 @@ class App extends Component{
                 <Route path="/NuevoEquipo" component={NuevoEquipo}/>
                 <Route path="/NuevaTarea" component={NuevaTarea}/>
                 <Route path="/DetallesTarea" component={DetallesTarea}/>
-                <Route path="/EditarTarea/:info" component={ModificarTarea}/>
+                <Route path="/EditarTarea" component={ModificarTarea}/>
+               
             </Router>
             
         

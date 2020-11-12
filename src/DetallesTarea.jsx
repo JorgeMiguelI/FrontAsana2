@@ -3,19 +3,16 @@ import React, { useEffect } from 'react';
 import swal from 'sweetalert';
 import { useForm } from "react-hook-form";
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
+import SubTarea from './SubTarea';
 
-import Barra from './bar';
-import NuevaSubTarea from './NuevaSubTarea';
-import Topbar from './topbar';
 
 
 
 export default function DetallesTarea(props) {
 
-    const Cerrar = (ev) => {
-        let padre = ev.target.parentElement;
-        let padre1 = padre.parentElement;
-        //padre1.remove();
+    const Cerrar = () => {
+      
         
         let correcto=ReactDOM.unmountComponentAtNode(document.getElementById("DetallesTarea"));
     }
@@ -32,7 +29,12 @@ export default function DetallesTarea(props) {
 
 
     const Editar = () => {
-        props.history.push("/EditarTarea/"+props.info);
+        console.clear();
+        console.log(props);
+        localStorage.setItem("Info",props.info);
+        Cerrar();
+        props.history.push("/EditarTarea");
+        
     }
 
 
@@ -42,7 +44,7 @@ export default function DetallesTarea(props) {
             let info = JSON.parse(props.info);
             if (document.getElementById("inputNombre") != null) {
                 document.getElementById("inputNombre").setAttribute("value", info.InfoTarea.nombre);
-                document.getElementById("inputResponsable").setAttribute("value","Uno Nombre");
+                document.getElementById("inputResponsable").setAttribute("value",info.InfoEncargado.nombre);
                 document.getElementById("inputProyecto").setAttribute("value",info.InfoProyecto.nombre);
                 document.getElementById("selectPr").setAttribute("value", info.InfoTarea.prioridad);
                 document.getElementById("inputDate").setAttribute("value", info.InfoTarea.fecha_entrega);
@@ -56,6 +58,38 @@ export default function DetallesTarea(props) {
                 }
                 document.getElementById("inputDescripcion").appendChild(document.createTextNode(info.InfoTarea.descripcion));
                 document.getElementById("inputComentarios").appendChild(document.createTextNode(info.InfoTarea.observaciones));
+                let detallesSubT=document.getElementById("TareasD");
+                if(detallesSubT.hasChildNodes()){
+                    for(let hijo of detallesSubT.childNodes){
+                        ReactDOM.unmountComponentAtNode(hijo);
+                        hijo.remove();
+                    }
+                }
+                if(info.SubTareas.length==0){
+                    document.getElementById("SubTareaTitle").classList.add("d-none");
+                }else{
+                    
+                    if(document.getElementById("SubTareaTitle").classList.contains("d-none")){
+                        document.getElementById("SubTareaTitle").classList.remove("d-none");
+                    }
+                    
+
+
+
+                    for(let SubTarea1 of info.SubTareas){
+                        let divT=document.createElement("div");
+                        divT.setAttribute("id","Div"+SubTarea1.subtarea._id);
+                        detallesSubT.appendChild(divT);
+                        let subTareaInf=<SubTarea idST={SubTarea1.subtarea._id} info={JSON.stringify(SubTarea1)} key={SubTarea1.subtarea._id}/>
+                        ReactDOM.render(subTareaInf, divT);
+                    }
+
+
+
+
+                    
+                }
+                
             }
 
         }
@@ -142,11 +176,11 @@ export default function DetallesTarea(props) {
 
                 </form>
                 <div className="form-row">
-                    <div className="col-md-6">
+                    <div className="col-md-6" id="SubTareaTitle">
                         <h6>Sub Tareas</h6>
                     </div>
                 </div>
-                <div id="Tareas" className="card" style={{ marginBottom: "1em" }}>
+                <div id="TareasD" className="card" style={{ marginBottom: "1em" }}>
 
 
                 </div>
@@ -173,7 +207,9 @@ export default function DetallesTarea(props) {
 
 
 
-                <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={() => { /*guardar()*/ }}>Editar</button></div>
+                <div className="form-group mt-4 mb-0">
+                    <button className="btn btn-primary btn-block" onClick={() => { Editar() }}>Editar</button>
+                </div>
             </div>
         </div>
 

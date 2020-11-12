@@ -238,13 +238,23 @@ export default function ModificarTarea(props) {
                 SelectP.appendChild(option);
             });
 
-            console.log(props.match.params.info);
-            let info=JSON.parse(props.match.params.info);
-         
-            SelectP.value=info.proyecto;
-            document.getElementById("inputNombre").setAttribute("value",info.nombre)
-
-
+            console.clear();
+            let info1=localStorage.getItem("Info");
+            swal({
+                title: "Seleccione otra vez los datos",
+                text: "Seleccione proyecto, responzable y prioridad",
+                icon: "info",
+                button: "Cerrar",
+            });
+            let info=JSON.parse(info1);
+            console.log(info);
+            document.getElementById("ProyectoS").appendChild(document.createTextNode("Anterior: "+info.InfoProyecto.nombre));
+            document.getElementById("ParaS").appendChild(document.createTextNode("Anterior: "+info.InfoEncargado.nombre));
+            document.getElementById("inputNombre").setAttribute("value",info.InfoTarea.nombre)
+            document.getElementById("inputDate").setAttribute("value",info.InfoTarea.fecha_entrega);
+            document.getElementById("PrioridadS").appendChild(document.createTextNode("Anterior: "+info.InfoTarea.prioridad));
+            document.getElementById("inputDescripcion").appendChild(document.createTextNode(info.InfoTarea.descripcion));
+            document.getElementById("inputComentarios").appendChild(document.createTextNode(info.InfoTarea.observaciones[0]));
         }
     }
 
@@ -296,6 +306,7 @@ export default function ModificarTarea(props) {
                                             }}>
                                                 <option value="null">Seleccione...</option>
                                             </select>
+                                            <span className="blockquote-footer" id="ProyectoS"></span>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
@@ -304,6 +315,7 @@ export default function ModificarTarea(props) {
                                             <select name="responsable" id="selectM" className="form-control">
                                                 <option value="null">Seleccione...</option>
                                             </select>
+                                            <span className="blockquote-footer" id="ParaS"></span>
                                         </div>
                                     </div>
 
@@ -334,6 +346,7 @@ export default function ModificarTarea(props) {
                                                 <option value="Media">Media</option>
                                                 <option value="Baja">Baja</option>
                                             </select>
+                                            <span className="blockquote-footer" id="PrioridadS"></span>
                                         </div>
                                     </div>
 

@@ -3,20 +3,22 @@ import {Link} from "react-router-dom";
 import DetallesTarea from './DetallesTarea';
 import ReactDOM from 'react-dom';
 
-export default class Tarea extends Component {
-    idBtnA="BtnA"+this.props.idT;
-    idDate="Date"+this.props.idT;
-    idName="Name"+this.props.idT;
+export default class SubTarea extends Component {
+    idBtnA="SubTBtn"+this.props.idST;
+    idDate="SubTDate"+this.props.idST;
+    idName="SubTName"+this.props.idST;
+    idRespo="SubTResp"+this.props.idST;
     info;
     bandera=0;
 
     componentDidMount(){
-        
+        console.log(this.props.info);
         
         if(this.props.info!=""){
             this.info=JSON.parse(this.props.info);
-            document.getElementById(this.idName).setAttribute("value",this.info.InfoTarea.nombre);
-            document.getElementById(this.idDate).setAttribute("value",this.info.InfoTarea.fecha_entrega);
+            document.getElementById(this.idName).setAttribute("value",this.info.subtarea.nombre);
+            document.getElementById(this.idDate).setAttribute("value",this.info.subtarea.fecha_entrega);
+            document.getElementById(this.idRespo).setAttribute("value",this.info.encargado.nombre);
         }
         
     }
@@ -28,7 +30,7 @@ export default class Tarea extends Component {
        
 
         console.log(JSON.parse(this.props.info));
-        let Detalles = <DetallesTarea info={this.props.info} history={this.props.history}/>
+        let Detalles = <DetallesTarea info={this.props.info} />
 
        
         
@@ -69,24 +71,17 @@ export default class Tarea extends Component {
 
     render() {
         return (
-            <div className="row tarea" >
-                <div className="col">
-
-                    <div className="card card-body">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1" style={{"height":"80%"}}><button className=" btn btn-ligh" onClick={this.toogleC}><i className="fas fa-check-circle" id={this.idBtnA}></i></button></span>
-                            </div>
+            
+                        <div className="input-group ">
+                           
                             <input type="text" className="form-control" placeholder="Tarea" aria-label="Tarea" aria-describedby="basic-addon1" id={this.idName}/>
                             <input type="date" className="form-control" id={this.idDate}/>
-                            <button className=" btn btn-ligh" onClick={()=>{this.DetallesTareaShow()}}><i className="fas fa-info-circle"></i></button>
+                            <input type="text" className="form-control" placeholder="Responzable" aria-label="Responzable" aria-describedby="basic-addon1" id={this.idRespo}/>
+                           
 
                             
                         </div>
-                    </div>
-
-                </div>
-            </div>
+                   
         )
     }
 }
