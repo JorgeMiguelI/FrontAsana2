@@ -69,7 +69,96 @@ function Login(props){
     }
 
     return (
-        <div className="bg-primary">
+        <div className="bg-primary" id="back">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+
+                        <div class="col-xl-10 col-lg-12 col-md-9">
+
+                            <div class="card o-hidden border-0 shadow-lg my-5">
+                                <div class="card-body p-0">
+                                    <div class="row">
+                                        <div class="col-lg-6 d-none d-lg-block bg-login-image" id="back2"></div>
+                                        <div class="col-lg-6">
+                                            <div class="p-5">
+                                                <div class="text-center">
+                                                    <h1 class="h4 text-gray-900 mb-4">Bienvenido!</h1>
+                                                </div>
+                                                <form class="user" onSubmit={EnviarData}>
+                                                    <div class="form-group">
+                                                        <input type="email" class="form-control form-control-user"
+                                                            id="inputEmailAddress" aria-describedby="emailHelp"
+                                                            placeholder="Ingresa Usuario o Correo..."
+                                                            name="correo"
+                                                            onChange={handleInputChange}
+                                                            />
+                                                            <span className="alert alert-danger" role="alert" id="errCorreo" >
+                                                            </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="password" class="form-control form-control-user"
+                                                            id="exampleInputPassword" placeholder="Contraseña"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox small">
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck"/>
+                                                            <label class="custom-control-label" for="customCheck">Remember
+                                                                Me</label>
+                                                        </div>
+                                                    </div>
+                                                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                                        Login
+                                                    </a>
+                                                    <hr/>
+                                                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                                    </a>
+                                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                                    </a>
+                                                </form>
+                                                <hr/>
+                                                <div class="text-center">
+                                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                                </div>
+                                                <div class="text-center">
+                                                    <Link to="/registro" className="small">Need an account? Sign up!</Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer className="py-4 bg-light mt-auto">
+                    <div className="container-fluid">
+                        <div className="d-flex align-items-center justify-content-between small">
+                            <div className="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+
+        /*<div className="bg-primary" id="back">
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
@@ -137,7 +226,7 @@ function Login(props){
                 </footer>
             </div>
         </div>
-    </div>
+    </div>*/
     )
     
 }
