@@ -35,12 +35,12 @@ export default class NuevaSubTarea extends Component {
                 }
     
             }
-            console.log(this.props.miembros);
-            console.log("---------- subtarea-----");
+           // console.log(this.props.miembros);
+          //  console.log("---------- subtarea-----");
             if(this.props.miembros!="" && this.props.miembros){
                 let miembros=JSON.parse(this.props.miembros)
 
-                console.log(miembros);
+              //  console.log(miembros);
                 
                 miembros.map((item)=>{
                     option=document.createElement("option");
@@ -73,7 +73,7 @@ export default class NuevaSubTarea extends Component {
                     button:"Cerrar"}
                     );
             }else if(data.deletedCount>0){
-                console.log(data);
+               // console.log(data);
                 //alert("Se ha eliminado la tarea");
             }
         }
@@ -103,7 +103,7 @@ export default class NuevaSubTarea extends Component {
         let responsable=document.getElementById("selectM1"+this.props.idST).value;
         let creador=localStorage.getItem("ID");
         let proyecto=this.props.proyecto;
-        let info= {nombre: nombre, estado: "A", fecha_entrega:fecha, encargado: responsable, creador: creador,fecha_publicacion:new Date(),proyecto:proyecto};
+        let info= {nombre: nombre, estado: "A", fecha_entrega:fecha, encargado: responsable, creador: creador,fecha_publicacion:new Date(),proyecto:proyecto,EsTarea:false};
         
         const res=await axios.post("http://localhost:4000/addSubtarea", {
             data: info

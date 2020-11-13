@@ -4,13 +4,13 @@ import Tarea from './Tarea'
 export default class TareasHoy extends Component {
     items;
     componentDidMount() {
-        console.log("--- hoy ----");
-        console.log(this.props.tareas);
+        //console.log("--- hoy ----");
+        //console.log(this.props.tareas);
         if (this.props.tareas != "") {
 
             //this.items="Revisando";
             let tareas = JSON.parse(this.props.tareas);
-            console.log(tareas);
+          //  console.log(tareas);
             this.items = tareas.map((item) =>
                 <Tarea idT={item._id} info={item} history={this.props.history}/>
             );

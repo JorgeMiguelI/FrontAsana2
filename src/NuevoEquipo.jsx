@@ -13,7 +13,7 @@ export default class NuevoEquipo extends Component {
 
         this.miembros = new Array();
         this.miembros.push("3252343");
-        console.log("Constructor NuevoEquipo");
+        //console.log("Constructor NuevoEquipo");
 
     }
     componentDidMount() {
@@ -26,7 +26,7 @@ export default class NuevoEquipo extends Component {
     viewMember = () => {
         console.clear();
 
-        console.log(this.miembros);
+       // console.log(this.miembros);
     }
 
     iniciarComponente = function (respuesta) {

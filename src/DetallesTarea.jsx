@@ -30,7 +30,7 @@ export default function DetallesTarea(props) {
 
     const Editar = () => {
         console.clear();
-        console.log(props);
+        //console.log(props);
         localStorage.setItem("Info",props.info);
         Cerrar();
         props.history.push("/EditarTarea");
@@ -65,13 +65,31 @@ export default function DetallesTarea(props) {
                         hijo.remove();
                     }
                 }
+
+                if(!info.EsTarea){
+                    if(document.getElementById("TareaPadre").classList.contains("d-none")){
+                        document.getElementById("TareaPadre").classList.remove("d-none");
+                        
+                    }
+                    document.getElementById("inputTareaPadre").setAttribute("value",info.InfoTareaPadre.nombre);
+                }else{
+                    document.getElementById("TareaPadre").classList.add("d-none");
+                }
+
+
+
+
+
                 if(info.SubTareas.length==0){
                     document.getElementById("SubTareaTitle").classList.add("d-none");
+                    
                 }else{
                     
                     if(document.getElementById("SubTareaTitle").classList.contains("d-none")){
                         document.getElementById("SubTareaTitle").classList.remove("d-none");
+                        
                     }
+                   
                     
 
 
@@ -80,7 +98,7 @@ export default function DetallesTarea(props) {
                         let divT=document.createElement("div");
                         divT.setAttribute("id","Div"+SubTarea1.subtarea._id);
                         detallesSubT.appendChild(divT);
-                        let subTareaInf=<SubTarea idST={SubTarea1.subtarea._id} info={JSON.stringify(SubTarea1)} key={SubTarea1.subtarea._id}/>
+                        let subTareaInf=<SubTarea idST={SubTarea1.subtarea._id} info={JSON.stringify(SubTarea1)} key={SubTarea1.subtarea._id} bntEliminar=""/>
                         ReactDOM.render(subTareaInf, divT);
                     }
 
@@ -107,6 +125,14 @@ export default function DetallesTarea(props) {
                             <div className="form-group">
                                 <label className="small mb-1" htmlFor="inputNombre">Nombre</label>
                                 <input className="form-control py-4" id="inputNombre" type="text" placeholder="" name="nombreT"  />
+                                
+
+                            </div>
+                        </div>
+                        <div className="col-md-6" id="TareaPadre">
+                            <div className="form-group">
+                                <label className="small mb-1" htmlFor="inputNombre">SubTarea de:    </label>
+                                <input className="form-control py-4" id="inputTareaPadre" type="text" placeholder="" name="nombreT"  />
                                 
 
                             </div>

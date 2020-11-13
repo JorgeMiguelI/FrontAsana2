@@ -60,10 +60,12 @@ function Login(props){
                 button: "Cerrar",
               });
         }else{
-           // console.log(props);
+            console.log(data);
+            localStorage.setItem("IdEmpresa",data.organizacion);
+            localStorage.setItem("ID",data._id);
            props.history.push("/principal");
         }
-        console.log(data);
+        
 
         }
 

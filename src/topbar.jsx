@@ -12,6 +12,10 @@ export default class Topbar extends Component {
         return this.state.estado;
     }
 
+    LogOut=()=>{
+        localStorage.clear();
+        
+    }
 
 
 
@@ -49,7 +53,7 @@ export default class Topbar extends Component {
                             <a className="dropdown-item">Settings</a>
                             <a className="dropdown-item" >Activity Log</a>
                             <div className="dropdown-divider"></div>
-                            <Link className="dropdown-item" to="/">Logout</Link>
+                            <Link className="dropdown-item" to="/" onClick={this.LogOut}>Logout</Link>
                         </div>
                     </li>
                 </ul>
