@@ -129,7 +129,7 @@ function Login(props){
                                                     <a class="small" href="#">Olvidaste tu contraseña?</a>
                                                 </div>
                                                 <div class="text-center">
-                                                    <Link to="/registro" className="small">No tienes cuenta? Crea una ahora!</Link>
+                                                    <Link to="/registro" className="small">No tienes cuenta Crea una ahora!</Link>
                                                 </div>
                                             </div>
                                         </div>
