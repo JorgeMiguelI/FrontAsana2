@@ -74,12 +74,12 @@ function Login(props){
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
-                <div class="container mt-5">
+                <div class="container">
                     <div class="row justify-content-center">
 
                         <div class="col-xl-10 col-lg-12 col-md-9">
 
-                            <div class="card o-hidden border-0 shadow-lg my-5">
+                            <div class="card o-hidden border-0 shadow-lg my-4">
                                 <div class="card-body p-0">
                                     <div class="row">
                                         <div class="col-lg-6 d-none d-lg-block bg-login-image" id="back2"></div>
@@ -126,10 +126,10 @@ function Login(props){
                                                 </form>
                                                 <hr/>
                                                 <div class="text-center">
-                                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                                    <a class="small" href="#">Olvidaste tu contraseña?</a>
                                                 </div>
                                                 <div class="text-center">
-                                                    <Link to="/registro" className="small">Need an account? Sign up!</Link>
+                                                    <Link to="/registro" className="small">No tienes cuenta? Crea una ahora!</Link>
                                                 </div>
                                             </div>
                                         </div>

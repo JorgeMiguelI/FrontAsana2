@@ -140,13 +140,139 @@ export default function RegistroU(props){
 
     return (
         <div className="bg-primary">
-            <div id="layoutAuthentication">
+            <div id="layoutAuthentication1">
                 <div id="layoutAuthentication_content">
                     <main>
-                        <div className="container">
+                    <div class="container">
+
+                        <div class="card o-hidden border-0 shadow-lg my-5">
+                            <div class="card-body p-0">
+                                <div class="row">
+                                    <div class="col-lg-5 d-none d-lg-block bg-register-image" id="registroUser"></div>
+                                    <div class="col-lg-7">
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                                <h1 class="h4 text-gray-900 mb-4">Crea una Cuenta!</h1>
+                                            </div>
+                                            <form class="user" id="Principal">
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input type="text" class="form-control form-control-user" id="inputFirstName"
+                                                            placeholder="Nombre"
+                                                            name="nombre"
+                                                            ref={register({
+                                                                required: true,
+                                                                minLenght: 1,
+                                                                pattern: /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]*$/
+                                                            })}
+                                                            />
+                                                            {errors.nombre?.type === "required" && (<small  className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                                            {errors.nombre?.type === "minLength" && (<small  className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+                                                            {errors.nombre?.type === "pattern" && (<small  className="form-text text-muted alert-danger ">Solo letras</small>)}
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control form-control-user" id="inputLastName"
+                                                            placeholder="Apellidos"
+                                                            name="apellidos"
+                                                            ref={register({
+                                                                required: true,
+                                                                minLength: 1,
+                                                                pattern: /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]*$/
+                                                            })}
+                                                            />
+                                                            {errors.apellidos?.type === "required" && (<small  className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                                            {errors.apellidos?.type === "minLength" && (<small  className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+                                                            {errors.apellidos?.type === "pattern" && (<small  className="form-text text-muted alert-danger ">Solo letras</small>)}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="text" class="form-control form-control-user" id="inputUser"
+                                                        placeholder="Usuario"
+                                                        name="usuario"
+                                                        ref={register({
+                                                            required: true,
+                                                            minLength: 1
+                                                        })}
+                                                        />
+                                                        {errors.usuario?.type === "required" && (<small  className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                                        {errors.usuario?.type === "minLength" && (<small  className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+                                                    
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="email" class="form-control form-control-user" id="inputEmailAddress"
+                                                        placeholder="Email Address"
+                                                        name="correo"
+                                                        ref={register({
+                                                            required: true,
+                                                            minLength: 1
+                                                        })}
+                                                        />
+                                                        {errors.correo?.type === "required" && (<small  className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                                        {errors.correo?.type === "minLength" && (<small  className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="text" class="form-control form-control-user" id="inputOrganization"
+                                                        placeholder="Codigo Organizacion"
+                                                        name="organizacion"
+                                                        />
+                                                    
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control form-control-user" id="inputEmpresa"
+                                                        placeholder="Nombre Empresa"
+                                                        name="empresa"
+                                                        />
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                                        <input type="password" class="form-control form-control-user"
+                                                            id="inputPassword" placeholder="Contraseña"
+                                                            name="password"
+                                                            ref={register({
+                                                                required: true,
+                                                                minLength: 8
+                                                            })}
+                                                            />
+                                                            {errors.password?.type === "required" && (<small id="contraseñaIncorrecta" className="form-text text-muted alert-danger ">Contraseña requerida</small>)}
+                                                             {errors.password?.type === "minLength" && (<small id="contraseñaIncorrecta" className="form-text text-muted alert-danger ">Contraseña debe tener mínimo 8 carácteres</small>)}
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="password" class="form-control form-control-user"
+                                                            id="inputConfirmPassword" placeholder="Confirmar Contraseña"
+                                                            onBlur={checkContraseña}
+                                                            />
+                                                            <small id="contraseñaIncorrecta" className="form-text text-muted alert-danger d-none">Contraseña incorrecta</small>
+                                                    </div>
+                                                </div>
+                                                <button className="btn btn-primary btn-block" onClick={ajax}>Crear Cuenta</button>
+                                            </form>
+                                            <hr/>
+                                            <div class="text-center">
+                                                <a class="small" href="#">Olvidaste tu contraseña?</a>
+                                            </div>
+                                            <div class="text-center">
+                                            <Link class="small" to="/">¿Ya tienes cuenta? Inicia sesión</Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                        
+                        {/*<div className="container">
                             <div className="row justify-content-center">
                                 <div className="col-lg-7">
-                                    <div className="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div className="card shadow-lg border-0 rounded-lg my-3">
                                         <div className="card-header"><h3 className="text-center font-weight-light my-4">Create Account</h3></div>
                                         <div className="card-body">
                                             <form id="Principal">
@@ -255,7 +381,7 @@ export default function RegistroU(props){
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            </div>*/}
                     </main>
                 </div>
 
