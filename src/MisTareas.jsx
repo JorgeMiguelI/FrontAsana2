@@ -13,9 +13,9 @@ export default class MisTareas extends Component {
 
     componentDidMount() {
         console.clear();
-       // console.log(this.props);
+        // console.log(this.props);
         this.TraerMisTareas();
-        
+
     }
 
     TraerMisTareas = async () => {
@@ -34,7 +34,7 @@ export default class MisTareas extends Component {
                 });
             } else {
 
-                console.log(data);
+                //console.log(data);
 
                 let Recientes = new Array();
                 let Hoy = new Array()
@@ -45,48 +45,71 @@ export default class MisTareas extends Component {
                     data.map(async (item) => {
                         let fechaTarea = new Date(item.fecha_entrega);
                         let tiempo = fechaTarea.getDate() - fecha_actual;
-                       
-                        let ListaTemp=new Array();
-                        let ListaSubtareas=new Array();
-                        
+
+                        let ListaTemp = new Array();
+                        let ListaSubtareas = new Array();
+
 
                         //Buscamos el proyecto al cual se asigno cada una de las tareas
                         let resp = await axios.get("http://localhost:4000/GetProyectoById/" + item.proyecto);
                         let proyecto = await resp.data;
 
-                         //Buscamos el encargado de la tarea
-                        const resp2= await axios.get("http://localhost:4000/GetColaborador/"+item.encargado);
-                        let encargado= await resp2.data;
+                        //Buscamos el encargado de la tarea
+                        const resp2 = await axios.get("http://localhost:4000/GetColaborador/" + item.encargado);
+                        let encargado = await resp2.data;
 
 
                         //Buscar subtareas que tiene las tareas
-                        for(let idSubtarea of item.subtareas){
-                            const resp3= await axios.get("http://localhost:4000/GetTarea/"+idSubtarea);
-                            let subtarea= await resp3.data;
+                        for (let idSubtarea of item.subtareas) {
+                            const resp3 = await axios.get("http://localhost:4000/GetTarea/" + idSubtarea);
+                            let subtarea = await resp3.data;
                             ListaTemp.push(subtarea)
                         }
-                         //Buscamos al encargado para cada una de las subtareas
-                        for(let subtarea of ListaTemp){
-                            const resp4= await axios.get("http://localhost:4000/GetColaborador/"+subtarea.encargado)
-                            let encargadoSub= await resp4.data;
-                            ListaSubtareas.push({subtarea: subtarea, encargado: encargadoSub, tareaPadre: item});
+                        //Buscamos al encargado para cada una de las subtareas
+                        for (let subtarea of ListaTemp) {
+                            const resp4 = await axios.get("http://localhost:4000/GetColaborador/" + subtarea.encargado)
+                            let encargadoSub = await resp4.data;
+                            ListaSubtareas.push({ subtarea: subtarea, encargado: encargadoSub, tareaPadre: item });
+                        }
+                        let estarea;
+                        let TareaPadre;
+                        console.log(item);
+                        if (!item.EsTarea) {
+                            estarea = false;
+                            let resp1 = await axios.get("http://localhost:4000/GetTareaPadre/" + item._id);
+                            TareaPadre = await resp1.data;
+                            
+
+
+
+                        } else {
+                            estarea = true;
+                            TareaPadre="";
                         }
 
-                        let InfoTarea = { 
-                            InfoTarea: item, 
+                        
+
+                       
+
+
+
+                        let InfoTarea = {
+                            EsTarea: estarea,
+                            InfoTarea: item,
                             InfoProyecto: proyecto,
-                            InfoEncargado:encargado,
-                            SubTareas:ListaSubtareas
+                            InfoEncargado: encargado,
+                            SubTareas: ListaSubtareas,
+                            InfoTareaPadre: TareaPadre
                         }
-                        console.log(InfoTarea);
+                        //  console.log(InfoTarea);
                         if (tiempo <= 0) {
                             Hoy.push(InfoTarea);
                         }
 
                         if (tiempo <= 4 && tiempo > 0) {
                             Recientes.push(InfoTarea);
-                           
-                            
+
+
                         }
 
                         if (tiempo > 4) {
@@ -94,18 +117,18 @@ export default class MisTareas extends Component {
                         }
 
                         contador++;
-                        console.log(contador);
+                        // console.log(contador);
                         if (contador == data.length) {
                             resolve();
                         }
                     });
-                   
+
                 });
                 console.log(Recientes);
-                console.log(Hoy);
-                console.log(MasTarde);
-                //console.log(data);
-
+                /*console.log(Hoy);
+               console.log(MasTarde);
+               //console.log(data);
+*/
 
 
                 let divTareas = document.getElementById("accordionExample");
@@ -126,7 +149,7 @@ export default class MisTareas extends Component {
                     RecientesDiv.setAttribute("id", "recientes")
                     divTareas.appendChild(RecientesDiv);
 
-                    let TareasR = <TareasRecientes tareas={JSON.stringify(Recientes)} history={this.props.history}/>
+                    let TareasR = <TareasRecientes tareas={JSON.stringify(Recientes)} history={this.props.history} />
                     ReactDOM.render(TareasR, RecientesDiv);
 
                     //tareas para mas tarde
@@ -134,7 +157,7 @@ export default class MisTareas extends Component {
                     MasTardeDiv.setAttribute("id", "MasTarde")
                     divTareas.appendChild(MasTardeDiv);
 
-                    let TareasP = <TareasProximas tareas={JSON.stringify(MasTarde)} history={this.props.history}/>
+                    let TareasP = <TareasProximas tareas={JSON.stringify(MasTarde)} history={this.props.history} />
                     ReactDOM.render(TareasP, MasTardeDiv);
 
 
@@ -164,7 +187,7 @@ export default class MisTareas extends Component {
     }
 
 
-   
+
 
 
 
@@ -184,12 +207,12 @@ export default class MisTareas extends Component {
 
                     <div id="layoutSidenav_content">
                         <div className="containerT" >
-                            <div className="row" style={{"padding":"1rem"}}>
-                                
+                            <div className="row" style={{ "padding": "1rem" }}>
+
                                 <div className="col-sm-6"><Link to="/NuevaTarea"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button></Link> </div>
 
                             </div>
-                            <div className="row" style={{"padding":"1rem"}}>
+                            <div className="row" style={{ "padding": "1rem" }}>
                                 <div className="col-md-7">
                                     <div className="accordion" id="accordionExample" style={{ width: "80%" }}>
 

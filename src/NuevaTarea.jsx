@@ -36,14 +36,14 @@ export default function NuevaTarea(props) {
         let idTarea;
         if (document.getElementById("Tareas").hasChildNodes()) {
             let Tareas = document.getElementById("Tareas").childElementCount;
-            console.log(document.getElementById("Tareas").childElementCount);
+            //console.log(document.getElementById("Tareas").childElementCount);
             for (let i = 1; i <= Tareas; i++) {
                 idTarea = document.getElementsByClassName(i)[0].value;
                 subtareas.push(idTarea);
             }
 
 
-            console.log(subtareas);
+          //  console.log(subtareas);
         }
 
 
@@ -57,7 +57,8 @@ export default function NuevaTarea(props) {
             descripcion: document.getElementById("inputDescripcion").value,
             observaciones: [document.getElementById("inputComentarios").value],
             subtareas: subtareas,
-            fecha_publicacion:new Date()
+            fecha_publicacion:new Date(),
+            EsTarea:true
         }
         const res = await axios.post("http://localhost:4000/addTarea", {
             data: info
@@ -88,13 +89,13 @@ export default function NuevaTarea(props) {
 
     const CrearNuevaSubTarea = () => {
         console.clear();
-        console.log("NuevaSubTarea");
+       // console.log("NuevaSubTarea");
 
         let divTareas = document.getElementById("Tareas");
         let id = 0;
         if (divTareas.hasChildNodes()) {
             id = parseInt(divTareas.lastChild.id);
-            console.log(id);
+          //  console.log(id);
         } else {
 
         }
@@ -155,7 +156,7 @@ export default function NuevaTarea(props) {
             if (data.msg == "error") {
                 console.log("Hay un error");
             } else {
-                console.log(data);
+              //  console.log(data);
 
                 let select = document.getElementById("selectM");
                 //borramos sus hijos para poder rellenar
@@ -171,9 +172,9 @@ export default function NuevaTarea(props) {
 
                 let option;
                 console.clear();
-                console.log("---------- miembros-----");
+               // console.log("---------- miembros-----");
                 limpiarSelect();
-                console.log(data);
+               // console.log(data);
                 miembros = JSON.stringify(data);
                 data.map((item) => {
                     option = document.createElement("option");
@@ -187,7 +188,7 @@ export default function NuevaTarea(props) {
             }
 
         }
-        console.log(document.getElementById("selectM").value);
+        //console.log(document.getElementById("selectM").value);
 
 
 
@@ -197,7 +198,7 @@ export default function NuevaTarea(props) {
 
     const llenarForm = async () => {
         let idEmpresa = localStorage.getItem("IdEmpresa");
-        console.log(idEmpresa);
+       // console.log(idEmpresa);
         const res = await axios.get("http://localhost:4000/GetProyectos/" + idEmpresa)
         const data = res.data;
         if (data.msg === "Error") {
@@ -206,7 +207,7 @@ export default function NuevaTarea(props) {
             let SelectP = document.getElementById("selectP");
 
             let option;
-            console.log(data);
+           // console.log(data);
 
 
             if (SelectP.hasChildNodes()) {
@@ -237,7 +238,12 @@ export default function NuevaTarea(props) {
                 option.setAttribute("value", item._id);
                 SelectP.appendChild(option);
             });
+            option = document.createElement("option");
+            option.appendChild(document.createTextNode("Seleccione..."));
+            option.setAttribute("value", 0);
+            SelectP.appendChild(option);
 
+            SelectP.value=0;
 
 
         }

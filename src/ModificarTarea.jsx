@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import Barra from './bar';
 import NuevaSubTarea from './NuevaSubTarea';
 import Topbar from './topbar';
+import SubTarea from './SubTarea';
 import ReactDOM from 'react-dom';
 
 
@@ -28,25 +29,40 @@ export default function ModificarTarea(props) {
     let opcionSelected;
     let subtareas;
     useEffect(() => {
+        
         llenarForm();
     })
 
     const guardar = async () => {
         subtareas = new Array();
         let idTarea;
-        if (document.getElementById("Tareas").hasChildNodes()) {
+        if (document.getElementById("Tareas1").hasChildNodes()) {
             let Tareas = document.getElementById("Tareas").childElementCount;
-            console.log(document.getElementById("Tareas").childElementCount);
+          //  console.log(document.getElementById("Tareas").childElementCount);
             for (let i = 1; i <= Tareas; i++) {
                 idTarea = document.getElementsByClassName(i)[0].value;
                 subtareas.push(idTarea);
             }
 
 
-            console.log(subtareas);
+          //  console.log(subtareas);
+        }
+        if (document.getElementById("Tareas").hasChildNodes()) {
+            let Tareas = document.getElementById("Tareas").childElementCount;
+            let Tareas1Div=document.getElementById("Tareas");
+          //  console.log(document.getElementById("Tareas").childElementCount);
+            for (let i = 0; i < Tareas; i++) {
+                
+                idTarea = Tareas1Div.childNodes[i].id.substring(3,Tareas1Div.childNodes[i].id.length);
+                console.log(idTarea);
+                subtareas.push(idTarea);
+            }
+
+
+          
         }
 
-
+        console.log(subtareas);
         let info = {
             nombre: document.getElementById("inputNombre").value,
             proyecto: document.getElementById("selectP").value,
@@ -58,7 +74,7 @@ export default function ModificarTarea(props) {
             observaciones: [document.getElementById("inputComentarios").value],
             subtareas: subtareas,
             fecha_publicacion:new Date()
-        }
+        }/*
         const res = await axios.post("http://localhost:4000/addTarea", {
             data: info
         })
@@ -75,7 +91,7 @@ export default function ModificarTarea(props) {
         } else {
             //Notificar registro exitoso
             props.history.push("/principal");
-        }
+        }*/
     }
 
 
@@ -88,13 +104,13 @@ export default function ModificarTarea(props) {
 
     const CrearNuevaSubTarea = () => {
         console.clear();
-        console.log("NuevaSubTarea");
+       // console.log("NuevaSubTarea");
 
-        let divTareas = document.getElementById("Tareas");
+        let divTareas = document.getElementById("Tareas1");
         let id = 0;
         if (divTareas.hasChildNodes()) {
             id = parseInt(divTareas.lastChild.id);
-            console.log(id);
+            //console.log(id);
         } else {
 
         }
@@ -102,7 +118,7 @@ export default function ModificarTarea(props) {
 
 
 
-
+       
 
 
         let nuevaSubTarea = document.createElement("div");
@@ -136,7 +152,7 @@ export default function ModificarTarea(props) {
     const llenaSelect2 = async () => {
 
 
-        if (document.getElementById("Tareas").hasChildNodes()) {
+        if (document.getElementById("Tareas1").hasChildNodes()) {
             swal({
                 title: "Error",
                 text: "No se puede cambiar mientras tenga subtareas",
@@ -146,7 +162,13 @@ export default function ModificarTarea(props) {
             document.getElementById("selectP").setAttribute("value", opcionSelected);
             document.getElementById("selectP").value = opcionSelected;
         } else {
-            document.getElementById("BtnNST").classList.remove("d-none");
+            let info1=localStorage.getItem("Info");
+            let info=JSON.parse(info1);
+            if(info.EsTarea){
+                document.getElementById("BtnNST").classList.remove("d-none");
+            }
+
+            
 
             let idProyecto = document.getElementById("selectP").value;
             opcionSelected = idProyecto;
@@ -155,7 +177,7 @@ export default function ModificarTarea(props) {
             if (data.msg == "error") {
                 console.log("Hay un error");
             } else {
-                console.log(data);
+               // console.log(data);
 
                 let select = document.getElementById("selectM");
                 //borramos sus hijos para poder rellenar
@@ -167,13 +189,13 @@ export default function ModificarTarea(props) {
                     }
 
                 }
-                console.log(select);
+               // console.log(select);
 
                 let option;
                 console.clear();
-                console.log("---------- miembros-----");
+              //  console.log("---------- miembros-----");
                 limpiarSelect();
-                console.log(data);
+              //  console.log(data);
                 miembros = JSON.stringify(data);
                 data.map((item) => {
                     option = document.createElement("option");
@@ -187,7 +209,7 @@ export default function ModificarTarea(props) {
             }
 
         }
-        console.log(document.getElementById("selectM").value);
+       // console.log(document.getElementById("selectM").value);
 
 
 
@@ -195,9 +217,12 @@ export default function ModificarTarea(props) {
     }
 
 
+
+   
+
     const llenarForm = async () => {
         let idEmpresa = localStorage.getItem("IdEmpresa");
-        console.log(idEmpresa);
+      //  console.log(idEmpresa);
         const res = await axios.get("http://localhost:4000/GetProyectos/" + idEmpresa)
         const data = res.data;
         if (data.msg === "Error") {
@@ -206,7 +231,7 @@ export default function ModificarTarea(props) {
             let SelectP = document.getElementById("selectP");
 
             let option;
-            console.log(data);
+          //  console.log(data);
 
 
             if (SelectP.hasChildNodes()) {
@@ -237,6 +262,12 @@ export default function ModificarTarea(props) {
                 option.setAttribute("value", item._id);
                 SelectP.appendChild(option);
             });
+            option = document.createElement("option");
+            option.appendChild(document.createTextNode("Seleccione..."));
+            option.setAttribute("value", 0);
+            SelectP.appendChild(option);
+
+            SelectP.value=0;
 
             console.clear();
             let info1=localStorage.getItem("Info");
@@ -247,14 +278,34 @@ export default function ModificarTarea(props) {
                 button: "Cerrar",
             });
             let info=JSON.parse(info1);
-            console.log(info);
+           console.log(info);
             document.getElementById("ProyectoS").appendChild(document.createTextNode("Anterior: "+info.InfoProyecto.nombre));
             document.getElementById("ParaS").appendChild(document.createTextNode("Anterior: "+info.InfoEncargado.nombre));
             document.getElementById("inputNombre").setAttribute("value",info.InfoTarea.nombre)
             document.getElementById("inputDate").setAttribute("value",info.InfoTarea.fecha_entrega);
             document.getElementById("PrioridadS").appendChild(document.createTextNode("Anterior: "+info.InfoTarea.prioridad));
             document.getElementById("inputDescripcion").appendChild(document.createTextNode(info.InfoTarea.descripcion));
-            document.getElementById("inputComentarios").appendChild(document.createTextNode(info.InfoTarea.observaciones[0]));
+            if(info.InfoTarea.observaciones.length!=0){
+                document.getElementById("inputComentarios").appendChild(document.createTextNode(info.InfoTarea.observaciones[0]));
+            }
+            
+            
+            if(info.SubTareas.length!=0){
+               let detallesSubT=document.getElementById("Tareas");
+                for(let SubTarea1 of info.SubTareas){
+                    let divT=document.createElement("div");
+                    divT.setAttribute("id","Div"+SubTarea1.subtarea._id);
+                    detallesSubT.appendChild(divT);
+                    let subTareaInf=<SubTarea idST={SubTarea1.subtarea._id} info={JSON.stringify(SubTarea1)} key={SubTarea1.subtarea._id } bntEliminar="true"/>
+                    ReactDOM.render(subTareaInf, divT);
+
+                   
+                }
+            }
+        
+        
+        
+        
         }
     }
 
@@ -277,7 +328,7 @@ export default function ModificarTarea(props) {
 
                 <div id="layoutSidenav_content">
                     <div className="card shadow-lg border-0 rounded-lg mt-5" style={{ margin: "1em" }}>
-                        <div className="card-header"><h3 className="text-center font-weight-light my-4">Nueva Tarea</h3></div>
+                        <div className="card-header"><h3 className="text-center font-weight-light my-4">Modificar Tarea</h3></div>
                         <div className="card-body">
                             <form id="Principal">
 
@@ -381,6 +432,10 @@ export default function ModificarTarea(props) {
                                 </div>
                             </div>
                             <div id="Tareas" className="card" style={{ marginBottom: "1em" }}>
+
+
+                            </div>
+                            <div id="Tareas1" className="card" style={{ marginBottom: "1em" }}>
 
 
                             </div>

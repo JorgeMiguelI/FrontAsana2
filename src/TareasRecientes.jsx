@@ -24,7 +24,7 @@ export default class TareasRecientes extends Component {
         return (
             <div className="card" >
                 <div>
-                    <a className="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="true" aria-controls="multiCollapseExample1"><i className="fas fa-caret-down"></i>Agregadas Proximas</a>
+                    <a className="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="true" aria-controls="multiCollapseExample1"><i className="fas fa-caret-down"></i>Tareas Proximas</a>
                 </div>
 
                 <div id="multiCollapseExample1" className="collapse multi-collapse">
