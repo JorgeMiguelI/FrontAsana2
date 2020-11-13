@@ -101,7 +101,7 @@ function Login(props){
                                                     </div>
                                                     <div class="form-group">
                                                         <input type="password" class="form-control form-control-user"
-                                                            id="exampleInputPassword" placeholder="Contraseña"  name="pasord" onChange={handleInputChange}/>
+                                                            id="exampleInputPassword" placeholder="Contraseña"  name="password" onChange={handleInputChange}/>
                                                             <span className="alert alert-danger" role="alert" id="errPass" >
                                                     
                                                     </span>
@@ -129,7 +129,7 @@ function Login(props){
                                                     <a class="small" href="#">Olvidaste tu contraseña?</a>
                                                 </div>
                                                 <div class="text-center">
-                                                    <Link to="/registro" className="small">No tienes cuenta Crea una ahora!</Link>
+                                                    <Link to="/registro" className="small">No tienes cuenta? Crea una ahora!</Link>
                                                 </div>
                                             </div>
                                         </div>
