@@ -74,8 +74,8 @@ export default function ModificarTarea(props) {
             observaciones: [document.getElementById("inputComentarios").value],
             subtareas: subtareas,
             fecha_publicacion:new Date()
-        }/*
-        const res = await axios.post("http://localhost:4000/addTarea", {
+        }
+        const res = await axios.put("http://localhost:4000/UpdateTarea", {
             data: info
         })
         if (res.data.msg == "error") {
@@ -91,7 +91,7 @@ export default function ModificarTarea(props) {
         } else {
             //Notificar registro exitoso
             props.history.push("/principal");
-        }*/
+        }
     }
 
 
