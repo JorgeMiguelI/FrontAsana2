@@ -64,6 +64,7 @@ export default function ModificarTarea(props) {
 
         console.log(subtareas);
         let info = {
+            id:document.getElementById("IdTarea").value,
             nombre: document.getElementById("inputNombre").value,
             proyecto: document.getElementById("selectP").value,
             encargado: document.getElementById("selectM").value,
@@ -75,6 +76,8 @@ export default function ModificarTarea(props) {
             subtareas: subtareas,
             fecha_publicacion:new Date()
         }
+            console.log(info);
+        
         const res = await axios.put("http://localhost:4000/UpdateTarea", {
             data: info
         })
@@ -270,6 +273,10 @@ export default function ModificarTarea(props) {
             SelectP.value=0;
 
             console.clear();
+
+
+            
+
             let info1=localStorage.getItem("Info");
             swal({
                 title: "Seleccione otra vez los datos",
@@ -279,9 +286,10 @@ export default function ModificarTarea(props) {
             });
             let info=JSON.parse(info1);
            console.log(info);
+           document.getElementById("IdTarea").setAttribute("value",info.InfoTarea._id);
             document.getElementById("ProyectoS").appendChild(document.createTextNode("Anterior: "+info.InfoProyecto.nombre));
             document.getElementById("ParaS").appendChild(document.createTextNode("Anterior: "+info.InfoEncargado.nombre));
-            document.getElementById("inputNombre").setAttribute("value",info.InfoTarea.nombre)
+            document.getElementById("inputNombre").setAttribute("value",info.InfoTarea.nombre);
             document.getElementById("inputDate").setAttribute("value",info.InfoTarea.fecha_entrega);
             document.getElementById("PrioridadS").appendChild(document.createTextNode("Anterior: "+info.InfoTarea.prioridad));
             document.getElementById("inputDescripcion").appendChild(document.createTextNode(info.InfoTarea.descripcion));
@@ -331,7 +339,7 @@ export default function ModificarTarea(props) {
                         <div className="card-header"><h3 className="text-center font-weight-light my-4">Modificar Tarea</h3></div>
                         <div className="card-body">
                             <form id="Principal">
-
+                                <input type="hidden" id="IdTarea"/>
                                 <div className="form-row">
                                     <div className="col-md-6">
                                         <div className="form-group">
