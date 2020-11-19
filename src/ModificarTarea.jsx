@@ -415,13 +415,8 @@ export default function ModificarTarea(props) {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="small mb-1" htmlFor="inputDescripcion">Descripción<font color="red">*</font></label>
-                                            <textarea className="form-control py-4" id="inputDescripcion" placeholder="Descripción..." name="descripcion"ref={register({
-                                                required: true,
-                                                minLength: 1,
-
-                                            })} ></textarea>
-                                            {errors.descripcion?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
-                                            {errors.descripcion?.type === "minLength" && (<small className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+                                            <textarea className="form-control py-4" id="inputDescripcion" placeholder="Descripción..." name="descripcion" ></textarea>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -470,7 +465,7 @@ export default function ModificarTarea(props) {
 
 
 
-                            <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={() => { guardar() }}>Crear Tarea</button></div>
+                            <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={() => { guardar() }}>Actualizar Tarea</button></div>
                         </div>
                     </div>
                 </div>
