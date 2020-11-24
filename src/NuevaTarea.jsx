@@ -262,7 +262,7 @@ export default function NuevaTarea(props) {
             <div id="layoutSidenav">
 
 
-                <Barra estado={Topbar} />
+                <Barra history={props.history} />
 
 
 
@@ -317,12 +317,8 @@ export default function NuevaTarea(props) {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="small mb-1" htmlFor="inputDate">Fecha de Entrega<font color="red">*</font></label>
-                                            <input className="form-control py-4" id="inputDate" type="date" name="fecha" ref={register({
-                                                required: true,
-                                                
-
-                                            })}/>
-                                            {errors.fecha?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                            <input className="form-control py-4" id="inputDate" type="date" name="fecha" />
+                                            
                                         </div>
 
                                     </div>

@@ -13,6 +13,7 @@ import ReactDOM from 'react-dom';
 
 
 
+
 export default class Principal extends Component {
 
 
@@ -80,7 +81,7 @@ export default class Principal extends Component {
                         }
                         let estarea;
                         let TareaPadre;
-                        console.log(item);
+                       // console.log(item);
                         if (!item.EsTarea) {
                             estarea = false;
                             let resp1 = await axios.get("http://localhost:4000/GetTareaPadre/" + item._id);
@@ -205,7 +206,7 @@ export default class Principal extends Component {
                 <div id="layoutSidenav">
 
 
-                    <Barra estado={Topbar} />
+                    <Barra history={this.props.history} />
 
 
 

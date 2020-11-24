@@ -1,7 +1,77 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 export default class Barra extends Component {
+
+    componentDidMount() {
+        this.getProyectos();
+    }
+   
+
+    Detallesproyecto = (ruta) => {
+        console.log(ruta);
+        this.props.history.push(ruta);
+
+    }
+    getProyectos = async () => {
+
+        let proyectosDiv = document.getElementById("ProyectosDiv");
+        let divP;
+        let linkP;
+        let myId = localStorage.getItem("ID");
+        let proyectos = [];
+
+        const resp = await axios.get("http://localhost:4000/GetEquipoColaborador/" + myId);
+        let data = resp.data;
+        //console.log(data);
+        if (data.msg == "error") {
+            //no se pudo traer tus proyectos
+        } else {
+            proyectos = data;
+            if (proyectos.length != 0) {
+                // console.log(proyectos);
+
+                proyectos.map((item) => {
+                    if (item != null) {
+                        divP = document.createElement("div");
+                        divP.setAttribute("id", item._id);
+
+
+                        let nombre =  item.nombre;
+                        let ruta = "/Detallesproyecto/" + item._id;
+                        linkP = <a className="nav-link" onClick={() => { this.Detallesproyecto(ruta) }}><div className="sb-nav-link-icon"><font color={item.color}><i className="fas fa-archive"></i></font></div>
+                            {nombre}</a>
+                        // console.log(linkP);
+                        // divP.appendChild(linkP);
+
+                        proyectosDiv.appendChild(divP);
+                        ReactDOM.render(linkP, divP);
+                    }
+
+                });
+
+
+
+            }
+            //console.log(proyectos)
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
 
     render() {
         return (
@@ -22,12 +92,12 @@ export default class Barra extends Component {
 
 
 
-                            <div className="sb-sidenav-menu-heading">Favoritos</div>
-                            <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns"></i></div>
-                                Layouts
-                                <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
-                            </a>
+                            <div className="sb-sidenav-menu-heading">Proyectos</div>
+                            <div id="ProyectosDiv">
+                                <div></div>
+
+                            </div>
+
                             <div className="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <a className="nav-link" href="layout-static.html">Static Navigation</a>

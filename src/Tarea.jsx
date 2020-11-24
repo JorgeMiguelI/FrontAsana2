@@ -32,7 +32,7 @@ export default class Tarea extends Component {
                 document.getElementById(this.idBtnA1).setAttribute("title","Activa");
                
             }else{
-                console.log(document.getElementById(this.idBtnA).classList);   
+               // console.log(document.getElementById(this.idBtnA).classList);   
                 if(!document.getElementById(this.idBtnA).classList.contains("far")){
                     document.getElementById(this.idBtnA).className="fas fa-check-circle";
                     
@@ -43,7 +43,7 @@ export default class Tarea extends Component {
                 document.getElementById(this.idBtnA1).setAttribute("title","Inactiva");
             }
 
-            console.log(document.getElementById(this.idBtnA).classList);   
+            //console.log(document.getElementById(this.idBtnA).classList);   
         }
         
     }
@@ -53,13 +53,15 @@ export default class Tarea extends Component {
 
         let divDetallesTareas=document.getElementById("DetallesTarea");
        
-
-        console.log(JSON.parse(this.props.info));
+        if(divDetallesTareas!=null){
+            console.log(JSON.parse(this.props.info));
         let Detalles = <DetallesTarea info={this.props.info} history={this.props.history}/>
 
        
         
         ReactDOM.render(Detalles,divDetallesTareas);
+        }
+        
 
 
 

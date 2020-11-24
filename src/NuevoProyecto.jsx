@@ -171,7 +171,7 @@ export default class NuevoProyecto extends Component {
                 <div id="layoutSidenav">
 
 
-                    <Barra />
+                    <Barra history={this.props.history}/>
 
 
 

@@ -274,7 +274,7 @@ export default class NuevoEquipo extends Component {
                 <div id="layoutSidenav">
 
 
-                    <Barra estado={Topbar} />
+                    <Barra history={this.props.history} />
 
 
 

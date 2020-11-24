@@ -330,7 +330,7 @@ export default function ModificarTarea(props) {
             <div id="layoutSidenav">
 
 
-                <Barra estado={Topbar} />
+                <Barra history={props.history} />
 
 
 

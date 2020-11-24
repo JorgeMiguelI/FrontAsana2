@@ -201,7 +201,7 @@ export default class MisTareas extends Component {
                 <div id="layoutSidenav">
 
 
-                    <Barra />
+                    <Barra history={this.props.history}/>
 
 
 
