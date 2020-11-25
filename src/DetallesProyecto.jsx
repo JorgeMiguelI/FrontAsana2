@@ -11,6 +11,7 @@ import Topbar from './topbar';
 import TareasProximas from './TareasProximas';
 import TareasRecientes from './TareasRecientes';
 import TareasHoy from './TareasHoy';
+import Tarea from './Tarea';
 
 
 
@@ -35,7 +36,16 @@ export default class DetallesProyecto extends Component {
             ReactDOM.unmountComponentAtNode(div);
             div.remove();
         }
-
+        let table=document.getElementById("tableBody");
+        if(table.hasChildNodes()){
+            for(let tr of table.childNodes){
+                for(let td of tr.childNodes){
+                    ReactDOM.unmountComponentAtNode(td);
+                    td.remove();
+                }
+                tr.remove();
+            }
+        }
 
 
         let undefined = void (0);
@@ -228,6 +238,92 @@ export default class DetallesProyecto extends Component {
                     console.log(PrioridadAlta);
 
 
+                    let tBody=document.getElementById("tableBody");
+
+                    let max=Math.max(PrioridadBaja.length,PrioridadMedia.length,PrioridadAlta.length);
+                    
+                    let tareasArray=new Array();
+                    let filaArray;
+
+                    let contador=0;
+                    for(let i=0;i<max;i++){
+                        filaArray=new Array();
+
+                        if(i<PrioridadAlta.length){
+                            filaArray.push(PrioridadAlta[i]);
+                        }else{
+                            filaArray.push(null);
+                        }
+                        
+                       
+                        if(i<PrioridadMedia.length){
+                            filaArray.push(PrioridadMedia[i]);
+
+                        }else{
+                            filaArray.push(null);
+                        }
+                        
+                        if(i<PrioridadBaja.length){
+                            filaArray.push(PrioridadBaja[i]);
+                        }else{
+                            filaArray.push(null);
+                        }
+                        tareasArray.push(filaArray);
+
+
+
+
+                    }
+                    console.log(tareasArray);
+
+                    let tr;
+                    let td;
+                    let tareaTag;
+                    for(let fila of tareasArray){
+                        tr=document.createElement("tr");
+                        for(let tarea of fila){
+                            td=document.createElement("td");
+                            if(tarea!=null){
+                                console.log(tarea.InfoTarea._id);
+                               let idT="Priridad"+tarea.InfoTarea._id;
+                                td.setAttribute("id",idT);
+                            }
+                            
+                            tr.appendChild(td);
+                            
+
+                        }
+                        tBody.appendChild(tr);
+
+
+                    }
+                    //console.clear();
+                    for(let fila of tareasArray){
+                        
+                        for(let tarea of fila){
+                            if(tarea!=null){
+                                //console.log(tarea);
+                                let idT="Priridad"+tarea.InfoTarea._id;
+                                let idT1=idT+"1";
+                                td=document.getElementById(idT);
+                                
+                                tareaTag=<Tarea idT={idT1} info={JSON.stringify(tarea)} key={tarea.InfoTarea._id} history={this.props.history}/>
+                                ReactDOM.render(tareaTag,td);
+                            }
+                            
+
+                        }
+                        
+
+
+                    }
+
+
+
+
+
+
+
                 });
 
 
@@ -301,25 +397,8 @@ export default class DetallesProyecto extends Component {
                                                     <th scope="col">Baja</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>@mdo</td>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>@fat</td>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>@twitter</td>
-                                                </tr>
+                                            <tbody id="tableBody">
+                                               
                                             </tbody>
                                         </table>
 

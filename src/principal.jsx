@@ -30,6 +30,7 @@ export default class Principal extends Component {
 
     componentDidMount() {
         this.TraerMisTareas();
+       // this.getProyectos();
     }
 
     TraerMisTareas = async () => {
@@ -171,6 +172,48 @@ export default class Principal extends Component {
 
     }
 
+    getProyectos = async () => {
+
+        let proyectosDiv = document.getElementById("ProyectosDiv");
+        let divP;
+        let linkP;
+        let myId = localStorage.getItem("ID");
+        let proyectos = [];
+
+        const resp = await axios.get("http://localhost:4000/GetEquipoColaborador/" + myId);
+        let data = resp.data;
+        //console.log(data);
+        if (data.msg == "error") {
+            //no se pudo traer tus proyectos
+        } else {
+            proyectos = data;
+            if (proyectos.length != 0) {
+                // console.log(proyectos);
+
+                proyectos.map((item) => {
+                    if (item != null) {
+                        divP = document.createElement("div");
+                        divP.setAttribute("id", item._id);
+
+
+                        let nombre =  item.nombre;
+                        let ruta = "/Detallesproyecto/" + item._id;
+                        linkP = <a className="nav-link" onClick={() => { this.Detallesproyecto(ruta) }}><div className="sb-nav-link-icon"><font color={item.color}><i className="fas fa-archive"></i></font></div>
+                            {nombre}</a>
+                        // console.log(linkP);
+                        // divP.appendChild(linkP);
+
+                        proyectosDiv.appendChild(divP);
+                        ReactDOM.render(linkP, divP);
+                    }
+
+                });
+
+
+
+            }
+            //console.log(proyectos)
+        }
 
 
 
@@ -178,25 +221,21 @@ export default class Principal extends Component {
 
 
 
-
-
-
-
-
-
-
-    GetClass = () => {
-        return this.state.show ? "sb-sidenav accordion sb-sidenav-dark" : "sb-sidenav accordion sb-sidenav-dark d-none";
     }
-    getComponent = () => {
-        return this.state.component;
-    }
-    ChangeState = () => {
-        var state = !this.state.show;
-        this.setState({ show: state });
-        //alert(this.GetClass());
-    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
     render() {
         return (
             <div className="sb-nav-fixed">
@@ -227,6 +266,11 @@ export default class Principal extends Component {
                                 </div>
                                 <div className="col-md-5" id="DetallesTarea">
 
+                                </div>
+                            </div>
+                            <div className="row" style={{ "padding": "1rem" }}>
+                                <div className="col-md 3">
+                                <h6> <font color="red"><i className="fas fa-archive"></i></font><br/>proyecto</h6>
                                 </div>
                             </div>
 

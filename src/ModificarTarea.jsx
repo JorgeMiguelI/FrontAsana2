@@ -92,7 +92,7 @@ export default function ModificarTarea(props) {
 
 
         } else {
-            //Notificar registro exitoso
+            localStorage.removeItem("Info");
             props.history.push("/principal");
         }
     }
