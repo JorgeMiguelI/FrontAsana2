@@ -35,17 +35,18 @@ export default class MisTareas extends Component {
             } else {
 
                 //console.log(data);
-
+                let tareasFinalizadas=new Array();
                 let Recientes = new Array();
                 let Hoy = new Array()
-                let fecha_actual = new Date().getDate();
+                let fecha_actual = new Date();
                 let MasTarde = new Array();
                 let contador = 0;
                 let llenado = new Promise((resolve, rejecte) => {
                     data.map(async (item) => {
                         let fechaTarea = new Date(item.fecha_entrega);
-                        let tiempo = fechaTarea.getDate() - fecha_actual;
-
+                        let tiempo = fechaTarea.getDate() - fecha_actual.getDate();
+                        
+                        
                         let ListaTemp = new Array();
                         let ListaSubtareas = new Array();
 
@@ -73,7 +74,7 @@ export default class MisTareas extends Component {
                         }
                         let estarea;
                         let TareaPadre;
-                        console.log(item);
+                        //console.log(item);
                         if (!item.EsTarea) {
                             estarea = false;
                             let resp1 = await axios.get("http://localhost:4000/GetTareaPadre/" + item._id);
@@ -102,8 +103,24 @@ export default class MisTareas extends Component {
                             InfoTareaPadre: TareaPadre
                         }
                         //  console.log(InfoTarea);
-                        if (tiempo <= 0) {
-                            Hoy.push(InfoTarea);
+                        let bandera=fechaTarea.getFullYear()>fecha_actual.getFullYear()?true:false;
+
+                        if (tiempo <= 0 && !bandera) {
+                            if(item.estado=="A"){
+                                Hoy.push(InfoTarea);
+                                
+                            }else{
+                                
+
+                                tareasFinalizadas.push(InfoTarea);
+                            }
+
+
+                            
+                        }
+
+                        if(bandera){
+                            MasTarde.push(InfoTarea);
                         }
 
                         if (tiempo <= 4 && tiempo > 0) {
@@ -112,7 +129,7 @@ export default class MisTareas extends Component {
 
                         }
 
-                        if (tiempo > 4) {
+                        if (tiempo > 4  ) {
                             MasTarde.push(InfoTarea);
                         }
 
@@ -124,7 +141,7 @@ export default class MisTareas extends Component {
                     });
 
                 });
-                console.log(Recientes);
+               // console.log(Recientes);
                 /*console.log(Hoy);
                console.log(MasTarde);
                //console.log(data);
@@ -140,7 +157,10 @@ export default class MisTareas extends Component {
                     divTareas.appendChild(HoyDiv);
 
                     let TareasHoy1 = <TareasHoy tareas={JSON.stringify(Hoy)} history={this.props.history} />
-                    ReactDOM.render(TareasHoy1, HoyDiv);
+                    if(Hoy.length!=0){
+                        ReactDOM.render(TareasHoy1, HoyDiv);
+                    }
+                    
 
 
 
@@ -150,7 +170,10 @@ export default class MisTareas extends Component {
                     divTareas.appendChild(RecientesDiv);
 
                     let TareasR = <TareasRecientes tareas={JSON.stringify(Recientes)} history={this.props.history} />
-                    ReactDOM.render(TareasR, RecientesDiv);
+                    if(Recientes.length!=0){
+                        ReactDOM.render(TareasR, RecientesDiv);
+                    }
+                    
 
                     //tareas para mas tarde
                     let MasTardeDiv = document.createElement("div");
@@ -158,7 +181,10 @@ export default class MisTareas extends Component {
                     divTareas.appendChild(MasTardeDiv);
 
                     let TareasP = <TareasProximas tareas={JSON.stringify(MasTarde)} history={this.props.history} />
-                    ReactDOM.render(TareasP, MasTardeDiv);
+                    if(MasTarde!=0){
+                        ReactDOM.render(TareasP, MasTardeDiv);
+                    }
+                    
 
 
                 });
@@ -208,9 +234,8 @@ export default class MisTareas extends Component {
                     <div id="layoutSidenav_content">
                         <div className="containerT" >
                             <div className="row" style={{ "padding": "1rem" }}>
-
-                                <div className="col-sm-6"><Link to="/NuevaTarea"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button></Link> </div>
-
+                                {localStorage.getItem("Rol")!="C"?<div className="col-sm-6"><Link to="/NuevaTarea"><button type="button" className="btn btn-primary"><i className="fas fa-plus"></i>Agregar Tarea</button></Link> </div>:<div></div>}
+                                
                             </div>
                             <div className="row" style={{ "padding": "1rem" }}>
                                 <div className="col-md-7">

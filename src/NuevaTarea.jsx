@@ -14,7 +14,7 @@ import ReactDOM from 'react-dom';
 export default function NuevaTarea(props) {
 
     const { register, errors } = useForm({
-        mode: 'onBlur',
+        mode: 'onSubmit',
         reValidateMode: 'onChange',
         defaultValues: {},
         resolver: undefined,

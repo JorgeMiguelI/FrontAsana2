@@ -10,7 +10,7 @@ export default class TareasRecientes extends Component {
 
             //this.items="Revisando";
             let tareas = JSON.parse(this.props.tareas);
-            console.log(tareas);
+           // console.log(tareas);
             this.items = tareas.map((item) =>
                 <Tarea idT={item._id} info={item} />
             );

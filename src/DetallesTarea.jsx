@@ -234,7 +234,7 @@ export default function DetallesTarea(props) {
 
 
                 <div className="form-group mt-4 mb-0">
-                    <button className="btn btn-primary btn-block" onClick={() => { Editar() }}>Editar</button>
+                  {localStorage.getItem("Rol")!="C"?<button className="btn btn-primary btn-block" onClick={() => { Editar() }}>Editar</button>:<div></div>}
                 </div>
             </div>
         </div>

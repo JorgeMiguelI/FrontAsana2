@@ -112,19 +112,7 @@ export default class NuevoEquipo extends Component {
 
 
                 console.log("Inciar Componentes");
-                var respuesta1 = [
-                    {
-                        _id: 4564565,
-                        Nombre: "Kari",
-                        Correo: "amorcito@correo.com"
-                    },
-                    {
-                        _id: 456433565,
-                        Nombre: "Pau",
-                        Correo: "cuñis@correo.com"
-                    }
-
-                ];
+               
                 respuesta.map((item) => {
                     console.log("map");
                     //seleccionados

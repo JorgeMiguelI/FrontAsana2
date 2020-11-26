@@ -48,12 +48,12 @@ export default class Principal extends Component {
 
 
                 let Hoy = new Array()
-                let fecha_actual = new Date().getDate();
+                let fecha_actual = new Date();
                 let contador=0;
                 let llenado = new Promise((resolve, rejecte) => {
                     data.map(async (item) => {
                         let fechaTarea = new Date(item.fecha_entrega);
-                        let tiempo = fechaTarea.getDate() - fecha_actual;
+                        let tiempo = fechaTarea.getDate() - fecha_actual.getDate();
 
                         let ListaTemp = new Array();
                         let ListaSubtareas = new Array();
@@ -111,9 +111,19 @@ export default class Principal extends Component {
                             InfoTareaPadre: TareaPadre
                         }
                         //  console.log(InfoTarea);
-                        if (tiempo <= 0) {
-                            Hoy.push(InfoTarea);
+                        let bandera=fechaTarea.getFullYear()>fecha_actual.getFullYear()?true:false;
+
+                        if (tiempo <= 0 && !bandera) {
+                            if(item.estado=="A"){
+                                Hoy.push(InfoTarea);
+                            }    
+                            
+
+
+                            
                         }
+
+                       
                         contador++;
                         // console.log(contador);
                         if (contador == data.length) {

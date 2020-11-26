@@ -1,12 +1,54 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
+import swal from 'sweetalert';
+import axios from 'axios';
+
+
+
+
+
+
+
+
+
 export default class Topbar extends Component {
 
 
     state={
         estado:"Visible"
     }
+
+    componentDidMount(){
+        this.TraerUsuario();
+    }
+
+    TraerUsuario=async()=>{
+        let idUsuario=localStorage.getItem("ID");
+        const resp= await axios.get("http://localhost:4000/GetColaborador/"+ idUsuario);
+        const data= await resp.data;
+        if(data.msg=="error"){
+            //no se pudo traer el usuario
+        }else{
+            console.log(data);
+            localStorage.setItem("Rol",data.rol);
+            if(data.rol=="C"){
+                let menu=document.getElementsByClassName("menu-actividades");
+                for(let op of menu){
+                    op.classList.add("d-none");
+                }
+            }
+
+
+        }
+    }
+
+
+
+
+
+
+
 
     getEstado(){
         return this.state.estado;
@@ -38,9 +80,9 @@ export default class Topbar extends Component {
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" id="userDropdown"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fas fa-plus-circle"></i></a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <Link className="dropdown-item" to="/NuevoProyecto">Nuevo Proyecto</Link>
-                            <Link className="dropdown-item" to="/NuevoEquipo">Nuevo Equipo</Link>
-                            <Link className="dropdown-item" to="/NuevaTarea">Nueva Tarea</Link>
+                            <Link className="dropdown-item menu-actividades" to="/NuevoProyecto">Nuevo Proyecto</Link>
+                            <Link className="dropdown-item menu-actividades" to="/NuevoEquipo">Nuevo Equipo</Link>
+                            <Link className="dropdown-item menu-actividades" to="/NuevaTarea">Nueva Tarea</Link>
                             <a className="dropdown-item" >Nuevo Mensaje</a>
                             
                         </div>

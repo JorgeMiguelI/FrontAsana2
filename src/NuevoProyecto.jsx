@@ -1,4 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import axios from 'axios';
+
+
+
 import Barra from './bar';
 import Topbar from './topbar';
 import $ from 'jquery';
@@ -142,12 +146,25 @@ export default class NuevoProyecto extends Component {
             cache: false,
             contentType: false,
             processData: false,
-            success: function (respuesta) {
+            success: async function (respuesta) {
                 console.log(respuesta);
 
                 if (respuesta != 4) {
 
-                    window.location.href = "/principal";
+                    let idResponzable=document.getElementById("selectL").value;
+
+                    const resp= await axios.get("http://localhost:4000/UpdateRol/"+idResponzable);
+                    const data= await resp.data;
+                    if(data.msg=="error"){
+                        console.log("Error de actulizar rol");
+                    }else{
+                        
+                        console.log(data);
+                        window.location.href = "/principal";
+                    }
+
+
+                   
 
 
                 }
@@ -159,6 +176,10 @@ export default class NuevoProyecto extends Component {
 
             }
         });
+    
+      
+
+        
     }
 
 
