@@ -196,8 +196,8 @@ export default class NuevoProyecto extends Component {
 
 
 
-                    <div id="layoutSidenav_content">
-                        <div className="card shadow-lg border-0 rounded-lg mt-5" style={{margin:"2em"}}>
+                    <div id="layoutSidenav_content"> 
+                        <div id="cards" className="card shadow-lg border-0 rounded-lg mt-5">
                             <div className="card-header"><h3 className="text-center font-weight-light my-4">Crear proyecto</h3></div>
                             <div className="card-body">
                                 <form id="Principal">
@@ -210,29 +210,13 @@ export default class NuevoProyecto extends Component {
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="small mb-1" htmlFor="inputDescripcion">Descripción</label>
-                                                <textarea className="form-control py-4" id="inputDescripcion" placeholder="Describa el proyecto" name="descripcion"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-row">
-                                        <div className="col-md-6">
-                                            <div className="form-group">
                                                 <label className="small mb-1" htmlFor="inputDate">Fecha de Entrega</label>
                                                 <input className="form-control py-4" id="inputDate" type="date" name="fecha" />
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label className="small mb-1" htmlFor="inputColor">Color</label>
-                                                <input className="form-control py-4" id="inputColor" type="color" name="color" />
-                                            </div>
-                                        </div>
-
-
                                     </div>
                                     <div className="form-row">
-                                        <div className="col-md-6">
+                                    <div className="col-md-6">
                                             <div className="form-group">
                                                 <label className="small mb-1" htmlFor="slectE">Equipo</label>
                                                 <select name="equipoP" id="selectE" className="form-control" onChange={()=>{
@@ -250,22 +234,34 @@ export default class NuevoProyecto extends Component {
                                                 </select>
                                             </div>
                                         </div>
+                                        
+                                    </div>
+                                    <div className="form-row">
+                                        
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label className="small mb-1" htmlFor="inputDescripcion">Descripción</label>
+                                                <textarea className="form-control py-3" id="inputDescripcion" placeholder="Describa el proyecto" name="descripcion"></textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-2">
+                                            <div className="form-group">
+                                                <label className="small mb-1" htmlFor="inputColor">Color</label>
+                                                <input className="form-control py-2" id="inputColor" type="color" name="color" />
+                                            </div>
+                                        </div>
 
                                     </div>
 
 
                                     
                                 </form>
-                                <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={()=>{
+                                <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={()=>{
                                     this.ajax3();
                                 }}>Crear Proyecto</button></div>
                             </div>
 
                         </div>
-
-
-
-
                     </div>
 
                 </div>

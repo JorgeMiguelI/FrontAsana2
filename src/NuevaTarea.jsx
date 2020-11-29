@@ -267,7 +267,7 @@ export default function NuevaTarea(props) {
 
 
                 <div id="layoutSidenav_content">
-                    <div className="card shadow-lg border-0 rounded-lg mt-5" style={{ margin: "1em" }}>
+                    <div id="cards" className="card shadow-lg border-0 rounded-lg mt-5">
                         <div className="card-header"><h3 className="text-center font-weight-light my-4">Nueva Tarea</h3></div>
                         <div className="card-body">
                             <form id="Principal">
@@ -285,6 +285,14 @@ export default function NuevaTarea(props) {
                                             {errors.nombreT?.type === "minLength" && (<small className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
 
                                         </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            <label className="small mb-1" htmlFor="inputDate">Fecha de Entrega<font color="red">*</font></label>
+                                            <input className="form-control py-4" id="inputDate" type="date" name="fecha" />
+                                            
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -314,13 +322,22 @@ export default function NuevaTarea(props) {
 
 
                                 <div className="form-row">
+                                    
+
+
+                                </div>
+                                <div className="form-row">
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="small mb-1" htmlFor="inputDate">Fecha de Entrega<font color="red">*</font></label>
-                                            <input className="form-control py-4" id="inputDate" type="date" name="fecha" />
-                                            
-                                        </div>
+                                            <label className="small mb-1" htmlFor="inputDescripcion">Descripción<font color="red">*</font></label>
+                                            <textarea className="form-control py-3" id="inputDescripcion" placeholder="Descripción..." name="descripcion"ref={register({
+                                                required: true,
+                                                minLength: 1,
 
+                                            })} ></textarea>
+                                            {errors.descripcion?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
+                                            {errors.descripcion?.type === "minLength" && (<small className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
+                                        </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
@@ -331,22 +348,6 @@ export default function NuevaTarea(props) {
                                                 <option value="Media">Media</option>
                                                 <option value="Baja">Baja</option>
                                             </select>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div className="form-row">
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label className="small mb-1" htmlFor="inputDescripcion">Descripción<font color="red">*</font></label>
-                                            <textarea className="form-control py-4" id="inputDescripcion" placeholder="Descripción..." name="descripcion"ref={register({
-                                                required: true,
-                                                minLength: 1,
-
-                                            })} ></textarea>
-                                            {errors.descripcion?.type === "required" && (<small className="form-text text-muted alert-danger ">Campo requerido</small>)}
-                                            {errors.descripcion?.type === "minLength" && (<small className="form-text text-muted alert-danger ">Debe tener minimo 1 caracter</small>)}
                                         </div>
                                     </div>
                                 </div>
@@ -377,21 +378,13 @@ export default function NuevaTarea(props) {
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label className="small mb-1" htmlFor="inputComentarios">Observaciones</label>
-                                        <textarea className="form-control py-4" id="inputComentarios" placeholder="Observaciones..." name="comentarios" form="Principal"></textarea>
+                                        <textarea className="form-control py-3" id="inputComentarios" placeholder="Observaciones..." name="comentarios" form="Principal"></textarea>
                                     </div>
                                 </div>
                             </div>
 
 
-
-
-
-
-
-
-
-
-                            <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={() => { guardar() }}>Crear Tarea</button></div>
+                            <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={() => { guardar() }}>Crear Tarea</button></div>
                         </div>
                     </div>
                 </div>

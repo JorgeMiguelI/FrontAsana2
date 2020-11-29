@@ -10054,8 +10054,15 @@ body {
 #layoutAuthentication {
   display: flex;
   flex-direction: column;
-  min-height: 93vh;
+  min-height: 100vh;
 }
+
+@media (max-width: 480px){
+  #layoutAuthentication {
+    min-height: 93vh;
+  }
+}
+
 #layoutAuthentication1 {
   display: flex;
   flex-direction: column;
@@ -10079,6 +10086,18 @@ body {
   z-index: 1038;
   transform: translateX(-225px);
 }
+#layoutSidenav_content{
+  background-image: url(./../Img/fondo_2_1.png);
+  background-color: rgba(216, 216, 216, 0.26);
+  background-size: cover;
+}
+
+@media (max-width: 480px){
+  #layoutSidenav_content{
+    background-image: url(./../Img/fondo_2_1.png);
+  }
+}
+
 #layoutSidenav #layoutSidenav_content {
   position: relative;
   display: flex;
@@ -10304,4 +10323,28 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom;
+}
+
+#crearP{
+  background-color: rgba(0, 4, 43, 0.89);
+  outline: none;
+  color: white;
+  opacity: 95%;
+}
+#crearP:hover{
+  opacity: 100%;
+  transition: .5s;
+}
+#crearP:focus{
+  outline: none;
+}
+
+#cards{
+  margin: 2em;
+}
+
+@media (max-width: 480px){
+  #cards{
+    margin: 1.5em;
+  }
 }

@@ -267,7 +267,7 @@ export default class NuevoEquipo extends Component {
 
 
                     <div id="layoutSidenav_content">
-                        <div className="card shadow-lg border-0 rounded-lg mt-5" style={{ margin: "1em" }}>
+                        <div className="card shadow-lg border-0 rounded-lg mt-5" id="cards">
                             <div className="card-header"><h3 className="text-center font-weight-light my-4">Crear Equipo</h3></div>
                             <div className="card-body">
                                 <form id="Principal">
@@ -324,7 +324,7 @@ export default class NuevoEquipo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-group mt-4 mb-0"><button className="btn btn-primary btn-block" onClick={() => { this.ajax2() }}>Crear equipo</button></div>
+                                <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={() => { this.ajax2() }}>Crear equipo</button></div>
                             </div>
                         </div>
                     </div>
