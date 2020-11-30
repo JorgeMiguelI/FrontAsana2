@@ -30,7 +30,7 @@ export default class Topbar extends Component {
         if(data.msg=="error"){
             //no se pudo traer el usuario
         }else{
-            console.log(data);
+            //console.log(data);
             localStorage.setItem("Rol",data.rol);
             if(data.rol=="C"){
                 let menu=document.getElementsByClassName("menu-actividades");

@@ -12,34 +12,36 @@ import TareasProximas from './TareasProximas';
 import TareasRecientes from './TareasRecientes';
 import TareasHoy from './TareasHoy';
 import Tarea from './Tarea';
+import Calendario  from './Calendario';
 
 
 
 export default class DetallesProyecto extends Component {
-
+   
     idProyecto;
+
     componentDidMount() {
         let undefined = void (0);
-        console.log(this.props.match.params.id);
+      //  console.log(this.props.match.params.id);
         if (this.props.match.params.id != undefined) {
             this.idProyecto = this.props.match.params.id;
             this.TraerMisTareas();
         }
-
+       
 
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
 
-        let content=document.getElementById("accordionExample");
-        for(let div of content.childNodes){
+        let content = document.getElementById("accordionExample");
+        for (let div of content.childNodes) {
             ReactDOM.unmountComponentAtNode(div);
             div.remove();
         }
-        let table=document.getElementById("tableBody");
-        if(table.hasChildNodes()){
-            for(let tr of table.childNodes){
-                for(let td of tr.childNodes){
+        let table = document.getElementById("tableBody");
+        if (table.hasChildNodes()) {
+            for (let tr of table.childNodes) {
+                for (let td of tr.childNodes) {
                     ReactDOM.unmountComponentAtNode(td);
                     td.remove();
                 }
@@ -47,9 +49,13 @@ export default class DetallesProyecto extends Component {
             }
         }
 
+        if(document.getElementById("contact").hasChildNodes()){
+            ReactDOM.unmountComponentAtNode(document.getElementById("contact"));
+        }
+
 
         let undefined = void (0);
-        console.log(this.props.match.params.id);
+       // console.log(this.props.match.params.id);
         if (this.props.match.params.id != undefined) {
             this.idProyecto = this.props.match.params.id;
             this.TraerMisTareas();
@@ -58,6 +64,19 @@ export default class DetallesProyecto extends Component {
     TraerMisTareas = async () => {
 
         let listaTareas = [];
+        let tareasMes=new Array();
+        
+        for(let i=0;i<12;i++){
+            tareasMes.push(new Array());
+        }
+
+
+
+
+
+
+
+
 
         const resp = await axios.get("http://localhost:4000/GetTaskProject/" + this.idProyecto);
         const data = await resp.data;
@@ -75,7 +94,7 @@ export default class DetallesProyecto extends Component {
             } else {
 
                 listaTareas = data;
-                console.log(listaTareas);
+              //  console.log(listaTareas);
 
                 //console.log(data);
                 let PrioridadAlta = new Array();
@@ -96,6 +115,14 @@ export default class DetallesProyecto extends Component {
 
                         let ListaTemp = new Array();
                         let ListaSubtareas = new Array();
+
+
+
+                    
+
+
+
+
 
 
                         //Buscamos el proyecto al cual se asigno cada una de las tareas
@@ -121,7 +148,7 @@ export default class DetallesProyecto extends Component {
                         }
                         let estarea;
                         let TareaPadre;
-                        console.log(item);
+                        //console.log(item);
                         if (!item.EsTarea) {
                             estarea = false;
                             let resp1 = await axios.get("http://localhost:4000/GetTareaPadre/" + item._id);
@@ -149,6 +176,15 @@ export default class DetallesProyecto extends Component {
                             SubTareas: ListaSubtareas,
                             InfoTareaPadre: TareaPadre
                         }
+
+
+
+                      
+
+                        tareasMes[fechaTarea.getMonth()].push(InfoTarea);
+
+
+
                         //  console.log(InfoTarea);
                         if (tiempo <= 0) {
                             Hoy.push(InfoTarea);
@@ -165,7 +201,7 @@ export default class DetallesProyecto extends Component {
                         }
 
 
-                        
+
                         if (item.prioridad == "Alta") {
                             PrioridadAlta.push(InfoTarea);
                         }
@@ -173,7 +209,7 @@ export default class DetallesProyecto extends Component {
                             PrioridadMedia.push(InfoTarea);
 
                         }
-                        if (item.prioridad != "Alta" && item.prioridad != "Media" ) {
+                        if (item.prioridad != "Alta" && item.prioridad != "Media") {
                             PrioridadBaja.push(InfoTarea);
                         }
 
@@ -195,15 +231,15 @@ export default class DetallesProyecto extends Component {
 
                     //Tareas hoy
                     let HoyDiv = document.createElement("div");
-                    HoyDiv.setAttribute("id", "hoy")
+                    HoyDiv.setAttribute("id", "hoy1")
                     divTareas.appendChild(HoyDiv);
 
                     let TareasHoy1 = <TareasHoy tareas={JSON.stringify(Hoy)} history={this.props.history} />
-                    if(Hoy.length!=0){
+                    if (Hoy.length != 0) {
                         ReactDOM.render(TareasHoy1, HoyDiv);
                     }
 
-                    
+
 
 
 
@@ -213,10 +249,10 @@ export default class DetallesProyecto extends Component {
                     divTareas.appendChild(RecientesDiv);
 
                     let TareasR = <TareasRecientes tareas={JSON.stringify(Recientes)} history={this.props.history} />
-                    if(Recientes.length!=0){
+                    if (Recientes.length != 0) {
                         ReactDOM.render(TareasR, RecientesDiv);
                     }
-                    
+
 
                     //tareas para mas tarde
                     let MasTardeDiv = document.createElement("div");
@@ -224,48 +260,49 @@ export default class DetallesProyecto extends Component {
                     divTareas.appendChild(MasTardeDiv);
 
                     let TareasP = <TareasProximas tareas={JSON.stringify(MasTarde)} history={this.props.history} />
-                    if(MasTarde.length!=0){
+                    if (MasTarde.length != 0) {
                         ReactDOM.render(TareasP, MasTardeDiv);
                     }
-                    
 
 
 
 
-                    console.clear();
+
+                    //console.clear();
+                    /*
                     console.log(PrioridadBaja);
                     console.log(PrioridadMedia);
                     console.log(PrioridadAlta);
 
+*/
+                    let tBody = document.getElementById("tableBody");
 
-                    let tBody=document.getElementById("tableBody");
+                    let max = Math.max(PrioridadBaja.length, PrioridadMedia.length, PrioridadAlta.length);
 
-                    let max=Math.max(PrioridadBaja.length,PrioridadMedia.length,PrioridadAlta.length);
-                    
-                    let tareasArray=new Array();
+                    let tareasArray = new Array();
                     let filaArray;
 
-                    let contador=0;
-                    for(let i=0;i<max;i++){
-                        filaArray=new Array();
+                    let contador = 0;
+                    for (let i = 0; i < max; i++) {
+                        filaArray = new Array();
 
-                        if(i<PrioridadAlta.length){
+                        if (i < PrioridadAlta.length) {
                             filaArray.push(PrioridadAlta[i]);
-                        }else{
+                        } else {
                             filaArray.push(null);
                         }
-                        
-                       
-                        if(i<PrioridadMedia.length){
+
+
+                        if (i < PrioridadMedia.length) {
                             filaArray.push(PrioridadMedia[i]);
 
-                        }else{
+                        } else {
                             filaArray.push(null);
                         }
-                        
-                        if(i<PrioridadBaja.length){
+
+                        if (i < PrioridadBaja.length) {
                             filaArray.push(PrioridadBaja[i]);
-                        }else{
+                        } else {
                             filaArray.push(null);
                         }
                         tareasArray.push(filaArray);
@@ -274,23 +311,23 @@ export default class DetallesProyecto extends Component {
 
 
                     }
-                    console.log(tareasArray);
+                   // console.log(tareasArray);
 
                     let tr;
                     let td;
                     let tareaTag;
-                    for(let fila of tareasArray){
-                        tr=document.createElement("tr");
-                        for(let tarea of fila){
-                            td=document.createElement("td");
-                            if(tarea!=null){
-                                console.log(tarea.InfoTarea._id);
-                               let idT="Priridad"+tarea.InfoTarea._id;
-                                td.setAttribute("id",idT);
+                    for (let fila of tareasArray) {
+                        tr = document.createElement("tr");
+                        for (let tarea of fila) {
+                            td = document.createElement("td");
+                            if (tarea != null) {
+                               // console.log(tarea.InfoTarea._id);
+                                let idT = "Priridad" + tarea.InfoTarea._id;
+                                td.setAttribute("id", idT);
                             }
-                            
+
                             tr.appendChild(td);
-                            
+
 
                         }
                         tBody.appendChild(tr);
@@ -298,31 +335,34 @@ export default class DetallesProyecto extends Component {
 
                     }
                     //console.clear();
-                    for(let fila of tareasArray){
-                        
-                        for(let tarea of fila){
-                            if(tarea!=null){
+                    for (let fila of tareasArray) {
+
+                        for (let tarea of fila) {
+                            if (tarea != null) {
                                 //console.log(tarea);
-                                let idT="Priridad"+tarea.InfoTarea._id;
-                                let idT1=idT+"1";
-                                td=document.getElementById(idT);
-                                
-                                tareaTag=<Tarea idT={idT1} info={JSON.stringify(tarea)} key={tarea.InfoTarea._id} history={this.props.history}/>
-                                ReactDOM.render(tareaTag,td);
+                                let idT = "Priridad" + tarea.InfoTarea._id;
+                                let idT1 = idT + "1";
+                                td = document.getElementById(idT);
+
+                                tareaTag = <Tarea idT={idT1} info={JSON.stringify(tarea)} key={tarea.InfoTarea._id} history={this.props.history} />
+                                ReactDOM.render(tareaTag, td);
                             }
-                            
+
 
                         }
-                        
+
 
 
                     }
 
+                    console.log(tareasMes);
 
+                    let divCalendar=document.getElementById("contact");
+                    let clendario=<Calendario></Calendario>
+                    ReactDOM.render(clendario,divCalendar);
+                    
 
-
-
-
+                    
 
                 });
 
@@ -340,12 +380,7 @@ export default class DetallesProyecto extends Component {
     }
 
 
-
-
-
-
-
-
+    
 
 
 
@@ -373,7 +408,7 @@ export default class DetallesProyecto extends Component {
                                         <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tablero</a>
                                     </li>
                                     <li className="nav-item" role="presentation">
-                                        <a className="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                                        <a className="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Calendario</a>
                                     </li>
                                 </ul>
                                 <div className="tab-content" id="myTabContent">
@@ -398,13 +433,16 @@ export default class DetallesProyecto extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody id="tableBody">
-                                               
+
                                             </tbody>
                                         </table>
 
 
                                     </div>
                                     <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                       
+                                       
+
 
                                     </div>
                                 </div>

@@ -12,7 +12,7 @@ export default class Barra extends Component {
    
 
     Detallesproyecto = (ruta) => {
-        console.log(ruta);
+       // console.log(ruta);
         this.props.history.push(ruta);
 
     }
