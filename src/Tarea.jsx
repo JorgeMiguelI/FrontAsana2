@@ -16,8 +16,10 @@ export default class Tarea extends Component {
     componentDidMount(){
         
         
+        
         if(this.props.info!=""){
             this.info=JSON.parse(this.props.info);
+            //console.log(this.info);
             document.getElementById(this.idName).setAttribute("value",this.info.InfoTarea.nombre);
             document.getElementById(this.idDate).setAttribute("value",this.info.InfoTarea.fecha_entrega);
             

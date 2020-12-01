@@ -12,22 +12,22 @@ import TareasProximas from './TareasProximas';
 import TareasRecientes from './TareasRecientes';
 import TareasHoy from './TareasHoy';
 import Tarea from './Tarea';
-import Calendario  from './Calendario';
+import Calendario from './Calendario';
 
 
 
 export default class DetallesProyecto extends Component {
-   
+
     idProyecto;
 
     componentDidMount() {
         let undefined = void (0);
-      //  console.log(this.props.match.params.id);
+        //  console.log(this.props.match.params.id);
         if (this.props.match.params.id != undefined) {
             this.idProyecto = this.props.match.params.id;
             this.TraerMisTareas();
         }
-       
+
 
     }
 
@@ -49,13 +49,13 @@ export default class DetallesProyecto extends Component {
             }
         }
 
-        if(document.getElementById("contact").hasChildNodes()){
+        if (document.getElementById("contact").hasChildNodes()) {
             ReactDOM.unmountComponentAtNode(document.getElementById("contact"));
         }
 
 
         let undefined = void (0);
-       // console.log(this.props.match.params.id);
+        // console.log(this.props.match.params.id);
         if (this.props.match.params.id != undefined) {
             this.idProyecto = this.props.match.params.id;
             this.TraerMisTareas();
@@ -64,9 +64,9 @@ export default class DetallesProyecto extends Component {
     TraerMisTareas = async () => {
 
         let listaTareas = [];
-        let tareasMes=new Array();
-        
-        for(let i=0;i<12;i++){
+        let tareasMes = new Array();
+
+        for (let i = 0; i < 12; i++) {
             tareasMes.push(new Array());
         }
 
@@ -94,7 +94,7 @@ export default class DetallesProyecto extends Component {
             } else {
 
                 listaTareas = data;
-              //  console.log(listaTareas);
+                //  console.log(listaTareas);
 
                 //console.log(data);
                 let PrioridadAlta = new Array();
@@ -118,7 +118,7 @@ export default class DetallesProyecto extends Component {
 
 
 
-                    
+
 
 
 
@@ -179,7 +179,7 @@ export default class DetallesProyecto extends Component {
 
 
 
-                      
+
 
                         tareasMes[fechaTarea.getMonth()].push(InfoTarea);
 
@@ -311,7 +311,7 @@ export default class DetallesProyecto extends Component {
 
 
                     }
-                   // console.log(tareasArray);
+                    // console.log(tareasArray);
 
                     let tr;
                     let td;
@@ -321,7 +321,7 @@ export default class DetallesProyecto extends Component {
                         for (let tarea of fila) {
                             td = document.createElement("td");
                             if (tarea != null) {
-                               // console.log(tarea.InfoTarea._id);
+                                // console.log(tarea.InfoTarea._id);
                                 let idT = "Priridad" + tarea.InfoTarea._id;
                                 td.setAttribute("id", idT);
                             }
@@ -357,12 +357,12 @@ export default class DetallesProyecto extends Component {
 
                     console.log(tareasMes);
 
-                    let divCalendar=document.getElementById("contact");
-                    let clendario=<Calendario></Calendario>
-                    ReactDOM.render(clendario,divCalendar);
-                    
+                    let divCalendar = document.getElementById("contact");
+                    let clendario = <Calendario tareas={JSON.stringify(tareasMes)} history={this.props.history}></Calendario>
+                    ReactDOM.render(clendario, divCalendar);
 
-                    
+
+
 
                 });
 
@@ -380,7 +380,7 @@ export default class DetallesProyecto extends Component {
     }
 
 
-    
+
 
 
 
@@ -440,16 +440,19 @@ export default class DetallesProyecto extends Component {
 
                                     </div>
                                     <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                       
-                                       
+
+
 
 
                                     </div>
                                 </div>
                             </div>
 
-
+                            <div id="DetallesTarea">
+                                
+                            </div>
                         </div>
+
 
                     </div>
                 </div>
