@@ -57,125 +57,136 @@ export default class Calendario extends Component {
         let divDia;
         let dia;
         let botonDetalles;
+        let crearCalendario = new Promise((resolve, reject) => {
 
 
-        this.tareasMesActual = new Array();
-        for (let i = 0; i < 31; i++) {
-            this.tareasMesActual.push(new Array());
-        }
 
 
-        for (let tarea of this.Tareas[month1]) {
-            let fecha_tarea = new Date(tarea.InfoTarea.fecha_entrega);
 
-            let dia = fecha_tarea.getDate();
-
-            //  console.log(dia);
-            let añoT = fecha_tarea.getFullYear();
-            if (añoT == this.currentYear) {
-                this.tareasMesActual[dia].push(tarea);
+            this.tareasMesActual = new Array();
+            for (let i = 0; i < 31; i++) {
+                this.tareasMesActual.push(new Array());
             }
-        }
-        //console.log( this.tareasMesActual);
-
-        for (let i = this.startDay(); i > 0; i--) {
-
-            divDia = document.createElement("div");
-            divDia.className = "calendar__date calendar__item calendar__last-days";
-            divDia.appendChild(document.createTextNode(this.getTotalDays(this.monthNumber - 1) - (i - 1)));
 
 
-            dates.appendChild(divDia);
-        }
+            for (let tarea of this.Tareas[month1]) {
+                let fecha_tarea = new Date(tarea.InfoTarea.fecha_entrega);
 
-        for (let i = 1; i <= this.getTotalDays(month1); i++) {
+                let dia = fecha_tarea.getDate();
 
-
-
-            if (i === this.currentDay) {
-                divDia = document.createElement("div");
-                divDia.className = "calendar__date calendar__item calendar__today";
-                divDia.appendChild(document.createTextNode(i));
-                if (botonDetalles != null) {
-                    divDia.appendChild(document.createElement("br"));
-                    divDia.appendChild(botonDetalles);
+                //  console.log(dia);
+                let añoT = fecha_tarea.getFullYear();
+                if (añoT == this.currentYear) {
+                    this.tareasMesActual[dia].push(tarea);
                 }
+            }
+            //console.log( this.tareasMesActual);
+
+            for (let i = this.startDay(); i > 0; i--) {
+
+                divDia = document.createElement("div");
+                divDia.className = "calendar__date calendar__item calendar__last-days";
+                divDia.appendChild(document.createTextNode(this.getTotalDays(this.monthNumber - 1) - (i - 1)));
+
 
                 dates.appendChild(divDia);
-            } else {
-                divDia = document.createElement("div");
-                divDia.setAttribute("id", "Dia" + i);
-                divDia.className = "calendar__date calendar__item";
-                divDia.appendChild(document.createTextNode(i));
-                if (botonDetalles != null) {
-                    divDia.appendChild(document.createElement("br"));
-                    divDia.appendChild(botonDetalles);
-                }
-                dates.appendChild(divDia);
-
             }
-        }
 
-
-        for (let cont = 0; cont < this.tareasMesActual.length; cont++) {
-            if (this.tareasMesActual[cont].length != 0) {
-                //console.log(cont);
-                let id = "Dia" + (cont + 1);
-                let celda = document.getElementById(id);
+            for (let i = 1; i <= this.getTotalDays(month1); i++) {
 
 
 
-                botonDetalles = document.createElement("button");
-                let icon=document.createElement("i");
-                icon.className="fas fa-eye"
-                icon.setAttribute("value",cont);
-                botonDetalles.appendChild(icon);
-                botonDetalles.className = "btn btn-ligh";
-                botonDetalles.setAttribute("value", cont);
-                botonDetalles.addEventListener("click", (e) => {
-
-                    if (document.getElementById("DetallesTarea").hasChildNodes()) {
-                        ReactDOM.unmountComponentAtNode(document.getElementById("DetallesTarea"));
+                if (i === this.currentDay) {
+                    divDia = document.createElement("div");
+                    divDia.setAttribute("id", "Dia" + i);
+                    divDia.className = "calendar__date calendar__item calendar__today";
+                    divDia.appendChild(document.createTextNode(i));
+                    if (botonDetalles != null) {
+                        divDia.appendChild(document.createElement("br"));
+                        divDia.appendChild(botonDetalles);
                     }
-                    
-                    let element=e.target.className;
-                    
-                    let DetallesDia;
-                    if(element=="btn btn-ligh"){
-                        
-                        DetallesDia= e.target.value;
-                    }else{
-                        let elementoPadre;
-                        if(e.target.className.baseVal!=""){
-                            elementoPadre =e.target.parentElement.value
-                        }else{
-                            elementoPadre=e.target.parentElement.parentElement.value
+
+                    dates.appendChild(divDia);
+                } else {
+                    divDia = document.createElement("div");
+                    divDia.setAttribute("id", "Dia" + i);
+                    divDia.className = "calendar__date calendar__item";
+                    divDia.appendChild(document.createTextNode(i));
+                    if (botonDetalles != null) {
+                        divDia.appendChild(document.createElement("br"));
+                        divDia.appendChild(botonDetalles);
+                    }
+                    dates.appendChild(divDia);
+
+                }
+            }
+            resolve();
+        });
+
+        crearCalendario.then(() => {
+
+
+            for (let cont = 0; cont < this.tareasMesActual.length; cont++) {
+                if (this.tareasMesActual[cont].length != 0) {
+
+                    let id = "Dia" + (cont + 1);
+                    //console.log(id);
+                    let celda = document.getElementById(id);
+
+
+
+                    botonDetalles = document.createElement("button");
+                    let icon = document.createElement("i");
+                    icon.className = "fas fa-eye"
+                    icon.setAttribute("value", cont);
+                    botonDetalles.appendChild(icon);
+                    botonDetalles.className = "btn btn-ligh";
+                    botonDetalles.setAttribute("value", cont);
+                    botonDetalles.addEventListener("click", (e) => {
+
+                        if (document.getElementById("DetallesTarea").hasChildNodes()) {
+                            ReactDOM.unmountComponentAtNode(document.getElementById("DetallesTarea"));
                         }
-                         
-                        //console.log(elementoPadre);
-                        DetallesDia = elementoPadre;
-                    }
-                    
-                   //console.log(this.tareasMesActual[DetallesDia]);
-                    
-                    let DetallesDiaBox=<DetallesTareaDia tareas={JSON.stringify(this.tareasMesActual[DetallesDia])} EsDeproyecto={true} history={this.props.history}/>
-                    let container=document.getElementById("DetallesTarea");
-                    ReactDOM.render(DetallesDiaBox,container);
-                });
-                celda.appendChild(document.createElement("br"));
 
-                celda.appendChild(botonDetalles);
+                        document.getElementById("BntCerar").classList.remove("d-none");
+                        let element = e.target.className;
+
+                        let DetallesDia;
+                        if (element == "btn btn-ligh") {
+
+                            DetallesDia = e.target.value;
+                        } else {
+                            let elementoPadre;
+                            if (e.target.className.baseVal != "") {
+                                elementoPadre = e.target.parentElement.value
+                            } else {
+                                elementoPadre = e.target.parentElement.parentElement.value
+                            }
+
+                            //console.log(elementoPadre);
+                            DetallesDia = elementoPadre;
+                        }
+
+                        //console.log(this.tareasMesActual[DetallesDia]);
+
+                        let DetallesDiaBox = <DetallesTareaDia tareas={JSON.stringify(this.tareasMesActual[DetallesDia])} EsDeproyecto={true} history={this.props.history} />
+                        let container = document.getElementById("DetallesTarea");
+                        ReactDOM.render(DetallesDiaBox, container);
+                    });
+                    celda.appendChild(document.createElement("br"));
+
+                    celda.appendChild(botonDetalles);
 
 
 
 
 
 
+
+                }
 
             }
-
-        }
-
+        });
 
 
 

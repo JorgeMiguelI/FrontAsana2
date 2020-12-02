@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+
 import TareasProximas from './TareasProximas';
 import TareasRecientes from './TareasRecientes';
 import TareasHoy from './TareasHoy';
 import Barra from './bar';
 import Topbar from './topbar';
-import { Link } from 'react-router-dom';
-import swal from 'sweetalert';
-import axios from 'axios';
-import ReactDOM from 'react-dom';
+import TareasFinalizadas from './TareasFinaliadas';
 
 export default class MisTareas extends Component {
 
@@ -44,7 +46,7 @@ export default class MisTareas extends Component {
                 let llenado = new Promise((resolve, rejecte) => {
                     data.map(async (item) => {
                         let fechaTarea = new Date(item.fecha_entrega);
-                        let tiempo = fechaTarea.getDate() - fecha_actual.getDate();
+                        let tiempo = fechaTarea.getTime() - fecha_actual.getTime();
                         
                         
                         let ListaTemp = new Array();
@@ -104,8 +106,10 @@ export default class MisTareas extends Component {
                         }
                         //  console.log(InfoTarea);
                         let bandera=fechaTarea.getFullYear()>fecha_actual.getFullYear()?true:false;
-
-                        if (tiempo <= 0 && !bandera) {
+                     /*  console.log(tiempo);
+                        console.log(InfoTarea.InfoTarea.fecha_entrega);*/
+                        if (tiempo <= 0 && !bandera || tiempo > 10 && !bandera) {
+                            
                             if(item.estado=="A"){
                                 Hoy.push(InfoTarea);
                                 
@@ -123,14 +127,23 @@ export default class MisTareas extends Component {
                             MasTarde.push(InfoTarea);
                         }
 
-                        if (tiempo <= 4 && tiempo > 0) {
+                        if (tiempo <= 259200000 && tiempo > 0) {
                             Recientes.push(InfoTarea);
 
 
                         }
 
-                        if (tiempo > 4  ) {
-                            MasTarde.push(InfoTarea);
+                        if (tiempo > 259200000  ) {
+                            
+                            if(item.estado=="A"){
+                                MasTarde.push(InfoTarea);
+                                
+                            }else{
+                                
+
+                                tareasFinalizadas.push(InfoTarea);
+                            }
+                            
                         }
 
                         contador++;
@@ -150,6 +163,19 @@ export default class MisTareas extends Component {
 
                 let divTareas = document.getElementById("accordionExample");
                 llenado.then(() => {
+
+
+                     //Tareas finalizadas
+                     let FinDiv = document.createElement("div");
+                     FinDiv.setAttribute("id", "finalizadas")
+                     divTareas.appendChild(FinDiv);
+                   // console.log(tareasFinalizadas);
+                     let TaresFin = <TareasFinalizadas tareas={JSON.stringify(tareasFinalizadas)} history={this.props.history} />
+                     if(tareasFinalizadas.length!=0){
+                         ReactDOM.render(TaresFin, FinDiv);
+                     }
+
+
 
                     //Tareas hoy
                     let HoyDiv = document.createElement("div");

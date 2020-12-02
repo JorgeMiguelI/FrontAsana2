@@ -380,6 +380,10 @@ export default class DetallesProyecto extends Component {
     }
 
 
+    CerrarDetalles=()=>{
+        ReactDOM.unmountComponentAtNode(document.getElementById("DetallesTarea"));
+        document.getElementById("BntCerar").classList.add("d-none");
+    }
 
 
 
@@ -447,7 +451,9 @@ export default class DetallesProyecto extends Component {
                                     </div>
                                 </div>
                             </div>
-
+                            <div id="BntCerar" className="d-none">
+                                <button className="btn btn-primary"onClick={this.CerrarDetalles}>Cerrar</button>
+                            </div>
                             <div id="DetallesTarea">
                                 
                             </div>
