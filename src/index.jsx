@@ -12,8 +12,9 @@ import RegistroU from './RegistroU';
 import NuevaTarea from './NuevaTarea';
 import DetallesTarea from './DetallesTarea';
 import ModificarTarea from './ModificarTarea';
-import MisProyectos from './MisProyectos'
+
 import DetallesProyecto from './DetallesProyecto';
+import Invitacion from './Invitcion';
 
 class App extends Component{
     render(){
@@ -29,8 +30,8 @@ class App extends Component{
                 <Route path="/NuevaTarea" component={NuevaTarea}/>
                 <Route path="/DetallesTarea" component={DetallesTarea}/>
                 <Route path="/EditarTarea" component={ModificarTarea}/>
-                <Route path="/MisProyectos" component={MisProyectos}/>
                 
+                <Route path="/InvitarC" component={Invitacion}/>
                 <Route path="/Detallesproyecto/:id" component={DetallesProyecto}/>
                
             </Router>

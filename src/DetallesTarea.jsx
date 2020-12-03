@@ -37,11 +37,31 @@ export default function DetallesTarea(props) {
         
     }
 
-
+    const Eliminar=async()=>{
+        let info = JSON.parse(props.info);
+        let idTarea= info.InfoTarea._id;
+        const res= await axios.delete("http://localhost:4000/deleteTarea/"+idTarea)
+        const data= await res.data;
+        if(data.msg=="Error"){
+            alert("No se pudo eliminar la Tarea");
+        }else{
+            if(data.deletedCount==0){
+                swal({
+                    title:"Error",
+                    text:"La tarea que se quiere eliminar no se encuentra registrada",
+                    icon:"warning",
+                    button:"Cerrar"}
+                    );
+            }else if(data.deletedCount>0){
+               Cerrar();
+            }
+        }
+    }
 
     useEffect(() => {
         if (props.info != "") {
             let info = JSON.parse(props.info);
+            //console.log(info);
             if (document.getElementById("inputNombre") != null) {
                 document.getElementById("inputNombre").setAttribute("value", info.InfoTarea.nombre);
                 document.getElementById("inputResponsable").setAttribute("value",info.InfoEncargado.nombre);
@@ -116,7 +136,7 @@ export default function DetallesTarea(props) {
     return (
 
         <div className="card shadow-lg border-0 rounded-lg mt-5">
-            <div className="card-header"><h3 className="text-center font-weight-light my-4">Detalles</h3><button className="btn btn-ligth" onClick={Cerrar}>Cerrar</button></div>
+            <div className="card-header"><h3 className="text-center font-weight-light my-4">Detalles</h3><button className="btn btn-ligth" onClick={Cerrar}>Cerrar</button><button className="btn btn-danger" id="BtnEliminarTarea" onClick={Eliminar}>Eliminar</button></div>
             <div className="card-body">
                 <form id="Principal">
 

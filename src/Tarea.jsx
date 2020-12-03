@@ -56,7 +56,7 @@ export default class Tarea extends Component {
         let divDetallesTareas=document.getElementById("DetallesTarea");
        
         if(divDetallesTareas!=null){
-            console.log(JSON.parse(this.props.info));
+           // console.log(JSON.parse(this.props.info));
         let Detalles = <DetallesTarea info={this.props.info} history={this.props.history}/>
 
        

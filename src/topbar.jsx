@@ -40,6 +40,11 @@ export default class Topbar extends Component {
                     op.classList.add("d-none");
                 }
             }
+
+            if(data.rol!="D"){
+                document.getElementById("LinkColaborardorTopBar").classList.add("d-none");
+            }
+
             let NombreUsuarioTag = document.getElementById("NombreUsuario");
             let CorreoUsuarioTag = document.getElementById("CorreoUsuario");
             if (NombreUsuarioTag.hasChildNodes()) {
@@ -159,6 +164,7 @@ export default class Topbar extends Component {
                             <Link className="dropdown-item menu-actividades" to="/NuevoProyecto">Nuevo Proyecto</Link>
                             <Link className="dropdown-item menu-actividades" to="/NuevoEquipo">Nuevo Equipo</Link>
                             <Link className="dropdown-item menu-actividades" to="/NuevaTarea">Nueva Tarea</Link>
+                            <Link className="dropdown-item menu-actividades" to="/InvitarC" id="LinkColaborardorTopBar">Invitar Colaborador</Link>
                             <a className="dropdown-item" >Nuevo Mensaje</a>
 
                         </div>

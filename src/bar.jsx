@@ -8,6 +8,10 @@ export default class Barra extends Component {
 
     componentDidMount() {
         this.getProyectos();
+        if(localStorage.getItem("Rol")!="D"){
+            document.getElementById("LinkColaboradores").classList.add("d-none");
+            document.getElementById("LinkColaboradores1").classList.add("d-none");
+        }
     }
    
 
@@ -144,6 +148,11 @@ export default class Barra extends Component {
                             <Link className="nav-link" to="/Bar">
                                 <div className="sb-nav-link-icon"><i className="fas fa-table"></i></div>
                                 Tables
+                            </Link>
+                            <div className="sb-sidenav-menu-heading" id="LinkColaboradores1">Empresa</div>
+                            <Link className="nav-link" to="/InvitarC" id="LinkColaboradores">
+                                <div className="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                                Invitar colaborador
                             </Link>
                         </div>
                     </div>

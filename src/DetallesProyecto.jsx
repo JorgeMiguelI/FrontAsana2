@@ -13,19 +13,21 @@ import TareasRecientes from './TareasRecientes';
 import TareasHoy from './TareasHoy';
 import Tarea from './Tarea';
 import Calendario from './Calendario';
+import InfoProyecto from './InfoProyecto';
 
 
 
 export default class DetallesProyecto extends Component {
 
     idProyecto;
-
+    InfoProyectoData;
     componentDidMount() {
         let undefined = void (0);
         //  console.log(this.props.match.params.id);
         if (this.props.match.params.id != undefined) {
             this.idProyecto = this.props.match.params.id;
             this.TraerMisTareas();
+            this.TraerInfoProyecto();
         }
 
 
@@ -59,8 +61,37 @@ export default class DetallesProyecto extends Component {
         if (this.props.match.params.id != undefined) {
             this.idProyecto = this.props.match.params.id;
             this.TraerMisTareas();
+            this.TraerInfoProyecto();
         }
     }
+
+    TraerInfoProyecto=async()=>{
+        const resp = await axios.get("http://localhost:4000/GetProyectoById/" + this.idProyecto);
+        const data = await resp.data;
+        if (data.msg == "error") {
+            
+        } else {
+            let NombreProyecto=document.getElementById("NombreProyecto");
+            let colorProyecto=document.getElementById("ColorProyecto");
+
+            colorProyecto.setAttribute("color",data.color);
+            NombreProyecto.setAttribute("value",data.nombre);
+            const resp1 = await axios.get("http://localhost:4000/GetColaborador/" + data.lider);
+            const data1 = await resp1.data;
+            if (data1.msg == "error") {
+                
+            } else {
+                let nombreLider="Lider de Proyecto: "+data1.nombre;
+                document.getElementById("LiderProyecto").value=nombreLider;
+            }
+            this.InfoProyectoData={
+                InfoProyecto:data,
+                InfoLider:data1
+            }
+        }
+    }
+
+
     TraerMisTareas = async () => {
 
         let listaTareas = [];
@@ -355,7 +386,7 @@ export default class DetallesProyecto extends Component {
 
                     }
 
-                    console.log(tareasMes);
+                   // console.log(tareasMes);
 
                     let divCalendar = document.getElementById("contact");
                     let clendario = <Calendario tareas={JSON.stringify(tareasMes)} history={this.props.history}></Calendario>
@@ -380,12 +411,15 @@ export default class DetallesProyecto extends Component {
     }
 
 
-    CerrarDetalles=()=>{
+    CerrarDetalles = () => {
         ReactDOM.unmountComponentAtNode(document.getElementById("DetallesTarea"));
         document.getElementById("BntCerar").classList.add("d-none");
     }
 
-
+    DetallesProyecto=()=>{
+        let DetallesProyectoBox=<InfoProyecto info={JSON.stringify(this.InfoProyectoData)} />
+        ReactDOM.render(DetallesProyectoBox,document.getElementById("DetallesTarea"));
+    }
 
 
     render() {
@@ -403,6 +437,16 @@ export default class DetallesProyecto extends Component {
 
                     <div id="layoutSidenav_content">
                         <div className="containerD" >
+
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><font id="ColorProyecto" ><i className="fas fa-archive"></i></font></span>
+                                </div>
+                                <input type="text" className="form-control"  aria-label="NombreProyecto" aria-describedby="basic-addon1" id="NombreProyecto" readOnly/>
+                                
+                                <input type="text" className="form-control"  aria-label="LiderProyecto" aria-describedby="basic-addon1" id="LiderProyecto" readOnly/>
+                                <button className="btn btn-primary" onClick={this.DetallesProyecto}>Detalles</button>
+                            </div>
                             <div>
                                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                                     <li className="nav-item" role="presentation">
@@ -452,10 +496,10 @@ export default class DetallesProyecto extends Component {
                                 </div>
                             </div>
                             <div id="BntCerar" className="d-none">
-                                <button className="btn btn-primary"onClick={this.CerrarDetalles}>Cerrar</button>
+                                <button className="btn btn-primary" onClick={this.CerrarDetalles}>Cerrar</button>
                             </div>
                             <div id="DetallesTarea">
-                                
+
                             </div>
                         </div>
 
