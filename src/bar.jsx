@@ -8,15 +8,17 @@ export default class Barra extends Component {
 
     componentDidMount() {
         this.getProyectos();
-        if(localStorage.getItem("Rol")!="D"){
+        this.TraerEquipos();
+        this.TraerUsuario();
+        if (localStorage.getItem("Rol") != "D") {
             document.getElementById("LinkColaboradores").classList.add("d-none");
             document.getElementById("LinkColaboradores1").classList.add("d-none");
         }
     }
-   
+    
 
     Detallesproyecto = (ruta) => {
-       // console.log(ruta);
+        // console.log(ruta);
         this.props.history.push(ruta);
 
     }
@@ -44,7 +46,7 @@ export default class Barra extends Component {
                         divP.setAttribute("id", item._id);
 
 
-                        let nombre =  item.nombre;
+                        let nombre = item.nombre;
                         let ruta = "/Detallesproyecto/" + item._id;
                         linkP = <a className="nav-link" onClick={() => { this.Detallesproyecto(ruta) }}><div className="sb-nav-link-icon"><font color={item.color}><i className="fas fa-archive"></i></font></div>
                             {nombre}</a>
@@ -72,8 +74,58 @@ export default class Barra extends Component {
     }
 
 
+    TraerEquipos = async () => {
+        let equiposDiv=document.getElementById("EquiposDiv");
+        let divE;
+        let linkE;
+        let ListaEquipos = [];
+        let idEmpresa = localStorage.getItem("IdEmpresa");
+        const resp = await axios.get("http://localhost:4000/GetEquiposByEmpresa/" + idEmpresa);
+        const data = await resp.data;
+        if (data.msg == "error") {
+            //Error al traer los equipos
+        } else {
+            ListaEquipos = data;
+            if(ListaEquipos.length!=0){
+                ListaEquipos.map((item)=>{
+                    if (item != null) {
+                        divE = document.createElement("div");
+                        divE.setAttribute("id", item._id);
 
 
+                        let nombre = item.nombre;
+                        let ruta = "/Detallesproyecto/" + item._id;
+                        linkE = <a className="nav-link" ><div className="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            {nombre}</a>
+                        // console.log(linkP);
+                        // divP.appendChild(linkP);
+
+                        equiposDiv.appendChild(divE);
+                        ReactDOM.render(linkE, divE);
+                    }
+                })
+            }
+        }
+        //console.log(ListaEquipos);
+    }
+
+    TraerUsuario = async () => {
+        let idUsuario = localStorage.getItem("ID");
+        const resp = await axios.get("http://localhost:4000/GetColaborador/" + idUsuario);
+        const data = await resp.data;
+        if (data.msg == "error") {
+            //no se pudo traer el usuario
+        } else {
+
+            let infoUser=data.usuario;
+            if(document.getElementById("InfoUser").childNodes.length>1){
+                document.getElementById("InfoUser").childNodes[1].remove();
+
+            }   
+            document.getElementById("InfoUser").appendChild(document.createTextNode(infoUser));
+
+        }
+    }
 
 
 
@@ -141,14 +193,12 @@ export default class Barra extends Component {
                             </div>
                             <div className="sb-sidenav-menu-heading">Informes</div>
                             <div className="sb-sidenav-menu-heading">Equipos</div>
-                            <a className="nav-link" href="charts.html">
-                                <div className="sb-nav-link-icon"><i className="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <Link className="nav-link" to="/Bar">
-                                <div className="sb-nav-link-icon"><i className="fas fa-table"></i></div>
-                                Tables
-                            </Link>
+                            <div id="EquiposDiv">
+                                <div></div>
+
+                            </div>
+                           
+                            
                             <div className="sb-sidenav-menu-heading" id="LinkColaboradores1">Empresa</div>
                             <Link className="nav-link" to="/InvitarC" id="LinkColaboradores">
                                 <div className="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
@@ -156,11 +206,11 @@ export default class Barra extends Component {
                             </Link>
                         </div>
                     </div>
-                    <div className="sb-sidenav-footer">
+                    <div className="sb-sidenav-footer" id="InfoUser">
                         <div className="small">Logged in as:</div>
                                      Start Bootstrap
-                                </div>
-                </nav>
+                        </div>
+                    </nav>
             </div>
         )
     }

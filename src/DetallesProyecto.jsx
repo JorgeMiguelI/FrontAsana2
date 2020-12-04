@@ -84,9 +84,27 @@ export default class DetallesProyecto extends Component {
                 let nombreLider="Lider de Proyecto: "+data1.nombre;
                 document.getElementById("LiderProyecto").value=nombreLider;
             }
+
+
+            let idEquipo= data.equipo;
+            let Equipo;
+            const resp= await axios.get("http://localhost:4000/GetEquipoById/"+idEquipo);
+            const result= await resp.data;
+            if(result.msg=="error"){
+                //No se pudo traer el equipos
+            }else{
+                Equipo= result;
+                
+            }
+            console.log(Equipo)
+
+
+
+
             this.InfoProyectoData={
                 InfoProyecto:data,
-                InfoLider:data1
+                InfoLider:data1,
+                InfoEquipo:Equipo
             }
         }
     }
@@ -417,7 +435,7 @@ export default class DetallesProyecto extends Component {
     }
 
     DetallesProyecto=()=>{
-        let DetallesProyectoBox=<InfoProyecto info={JSON.stringify(this.InfoProyectoData)} />
+        let DetallesProyectoBox=<InfoProyecto info={JSON.stringify(this.InfoProyectoData)} history={this.props.history}/>
         ReactDOM.render(DetallesProyectoBox,document.getElementById("DetallesTarea"));
     }
 

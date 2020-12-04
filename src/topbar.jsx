@@ -25,6 +25,10 @@ export default class Topbar extends Component {
         this.TraerMisTareas();
     }
 
+    componentDidUpdate(){
+        this.TraerUsuario();
+        this.TraerMisTareas();
+    }
     TraerUsuario = async () => {
         let idUsuario = localStorage.getItem("ID");
         const resp = await axios.get("http://localhost:4000/GetColaborador/" + idUsuario);

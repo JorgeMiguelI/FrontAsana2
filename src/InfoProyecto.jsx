@@ -18,6 +18,7 @@ export default class InfoProyecto extends Component {
             this.InfoProyectoData=JSON.parse(this.props.info);
             document.getElementById("inputNombre").setAttribute("value",this.InfoProyectoData.InfoProyecto.nombre);
             document.getElementById("inputLider").setAttribute("value",this.InfoProyectoData.InfoLider.nombre);
+            document.getElementById("inputEquipo").setAttribute("value",this.InfoProyectoData.InfoEquipo.nombre);
             if(document.getElementById("inputDescripcion").hasChildNodes()){
                 for(let node of document.getElementById("inputDescripcion").childNodes){
                     node.remove();
@@ -29,11 +30,33 @@ export default class InfoProyecto extends Component {
     Cerrar=()=>{
         ReactDOM.unmountComponentAtNode(document.getElementById("DetallesTarea"));
     }
+    Eliminar=async()=>{
+        let idProyecto= this.InfoProyectoData.InfoProyecto._id;
+        const resp= await axios.delete("http://localhost:4000/DeleteProyecto/"+idProyecto);
+        const result= resp.data;
+        if(result.msg=="error"){
+            console.log("Errro al eliminar proyecto");
+        }else if (result.msg=="Ok"){
+            this.props.history.push("/principal");
+        }
+    }
+
+
+
+    Editar=()=>{
+       // alert("Hola");
+        localStorage.setItem("InfoP",JSON.stringify(this.InfoProyectoData));
+        this.props.history.push("/EditarProyecto");
+
+
+
+
+    }
 
     render() {
         return (
             <div className="card shadow-lg border-0 rounded-lg mt-5" >
-                <div className="card-header"><h3 className="text-center font-weight-light my-4">Detalles de proyecto</h3><button className="btn btn-ligth" onClick={this.Cerrar}>Cerrar</button><button className="btn btn-danger" id="BtnEliminarTarea" >Eliminar</button></div>
+                <div className="card-header"><h3 className="text-center font-weight-light my-4">Detalles de proyecto</h3><button className="btn btn-ligth" onClick={this.Cerrar}>Cerrar</button><button className="btn btn-danger" id="BtnEliminarTarea" onClick={this.Eliminar}>Eliminar</button></div>
                 <div className="card-body">
 
 
@@ -97,7 +120,7 @@ export default class InfoProyecto extends Component {
 
 
                     <div className="form-group mt-4 mb-0">
-                        {localStorage.getItem("Rol") != "C" ? <button className="btn btn-primary btn-block">Editar</button> : <div></div>}
+                        {localStorage.getItem("Rol") != "C" ? <button className="btn btn-primary btn-block" onClick={this.Editar}>Editar</button> : <div></div>}
                     </div>
                 </div>
             </div >

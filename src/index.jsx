@@ -12,7 +12,7 @@ import RegistroU from './RegistroU';
 import NuevaTarea from './NuevaTarea';
 import DetallesTarea from './DetallesTarea';
 import ModificarTarea from './ModificarTarea';
-
+import EditarProyecto from './EditarProyecto';
 import DetallesProyecto from './DetallesProyecto';
 import Invitacion from './Invitcion';
 
@@ -30,7 +30,7 @@ class App extends Component{
                 <Route path="/NuevaTarea" component={NuevaTarea}/>
                 <Route path="/DetallesTarea" component={DetallesTarea}/>
                 <Route path="/EditarTarea" component={ModificarTarea}/>
-                
+                <Route path="/EditarProyecto" component={EditarProyecto}/>
                 <Route path="/InvitarC" component={Invitacion}/>
                 <Route path="/Detallesproyecto/:id" component={DetallesProyecto}/>
                
