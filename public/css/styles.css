@@ -542,8 +542,9 @@ pre code {
   width: 100%;
   padding-right: 0.5rem;
   padding-left: 0.75rem;
-  margin-right: auto;
-  margin-left: auto;
+  padding-top: 1rem;;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 @media (min-width: 576px) {
   .container {
@@ -566,6 +567,9 @@ pre code {
   }
 }
 
+.container{
+  margin-top: .05rem;
+}
 .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
   width: 100%;
   padding-right: 0.75rem;

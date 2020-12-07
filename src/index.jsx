@@ -15,6 +15,8 @@ import ModificarTarea from './ModificarTarea';
 import EditarProyecto from './EditarProyecto';
 import DetallesProyecto from './DetallesProyecto';
 import Invitacion from './Invitcion';
+import DetallesEquipo from './DetallesEquipo';
+import EditarEquipo from './EditarEquipo'
 
 class App extends Component{
     render(){
@@ -33,6 +35,8 @@ class App extends Component{
                 <Route path="/EditarProyecto" component={EditarProyecto}/>
                 <Route path="/InvitarC" component={Invitacion}/>
                 <Route path="/Detallesproyecto/:id" component={DetallesProyecto}/>
+                <Route path="/DetallesEquipo/:id" component={DetallesEquipo}/>
+                <Route path="/EditarEquipo/:id" component={EditarEquipo}/>
                
             </Router>
             

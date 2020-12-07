@@ -73,6 +73,9 @@ export default class Barra extends Component {
 
     }
 
+    DetallesEquipo=(ruta)=>{
+        this.props.history.push(ruta);
+    }
 
     TraerEquipos = async () => {
         let equiposDiv=document.getElementById("EquiposDiv");
@@ -94,8 +97,10 @@ export default class Barra extends Component {
 
 
                         let nombre = item.nombre;
-                        let ruta = "/Detallesproyecto/" + item._id;
-                        linkE = <a className="nav-link" ><div className="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        let ruta = "/DetallesEquipo/" + item._id;
+                        linkE = <a className="nav-link" onClick={()=>{
+                            this.DetallesEquipo(ruta);
+                        }}><div className="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             {nombre}</a>
                         // console.log(linkP);
                         // divP.appendChild(linkP);

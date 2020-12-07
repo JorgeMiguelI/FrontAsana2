@@ -1,36 +1,144 @@
 import React, { Component } from 'react'
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
+
+
+
+
 import Barra from './bar';
 import Topbar from './topbar';
-import $ from 'jquery';
 window.$ = $;
 
-export default class NuevoEquipo extends Component {
+
+
+
+
+export default class EditarEquipo extends Component {
 
     miembros
+    idEquipo;
 
-    constructor() {
-        super();
-
-        this.miembros = new Array();
-        
-        this.miembros.push({
-            Id:"255",
-            rol:"M"
-        });
-        //console.log("Constructor NuevoEquipo");
-
-    }
     componentDidMount() {
+        let undefined = void (0);
+        if (this.props.match.params.id != undefined) {
+            this.idEquipo = this.props.match.params.id;
+            this.miembros = new Array();
+            this.miembros.push("3252343");
+            this.TraerInfoEquipo();
+            
+        }
+    }
+
+
+
+    TraerInfoEquipo = async () => {
+        let idEquipo = this.idEquipo;
+        let Equipo;
+        const resp = await axios.get("http://localhost:4000/GetEquipoById/" + idEquipo);
+        const result = await resp.data;
+        if (result.msg == "error") {
+            //No se pudo traer el equipos
+        } else {
+            Equipo = result;
+            document.getElementById("inputNombre").setAttribute("value", Equipo.nombre);
+            if (document.getElementById("inputDescripcion").hasChildNodes()) {
+                for (let node of document.getElementById("inputDescripcion").childNodes) {
+                    node.remove();
+                }
+            }
+            if (Equipo.descripcion != void (0)) {
+
+                document.getElementById("inputDescripcion").appendChild(document.createTextNode(Equipo.descripcion));
+            }
+
+            this.miembros = JSON.parse(Equipo.miembros);
+
+
+         
+           
+
+
+
+
+
+
+
+
+
+
+
+
+           // console.log(this.miembros);
+        }
         this.ajax1();
     }
 
 
 
+    addMember = (id, rol1) => {
+        let obj = {
+            Id: id,
+            rol: rol1
+        }
 
-    viewMember = () => {
+        let bandera = true;
+        for (let item of this.miembros) {
+            // console.log(item);
+            if (item.Id == obj.Id) {
+
+                bandera = false;
+                break;
+            }
+
+
+        }
+
+
+        // console.log(bandera);
+        if (bandera) {
+            this.miembros.push(obj);
+            //console.log(this);
+            return false;
+        } else {
+            alert("Miembro ya en la lista");
+            return true;
+        }
+
+
+
+
+
+
+        return true;
+    }
+
+    removeMember = (id) => {
+
         console.clear();
+        //console.log(this);
 
+        //console.log(this.length);
+        let i;
+        for (i = 0; i < this.miembros.length; i++) {
+            //console.log(id + "==" + this[i].Id);
+            if (id == this.miembros[i].Id) {
+                this.miembros.splice(i, 1);
+            }
+        }
+
+
+    }
+
+
+    buscarMiembro = (id) => {
        // console.log(this.miembros);
+       for(let item of this.miembros){
+           if(item.Id==id){
+               return true;
+           }
+       }
+       return false;
     }
 
     iniciarComponente = function (respuesta) {
@@ -47,12 +155,12 @@ export default class NuevoEquipo extends Component {
         //traerá los miembros de la empresa
         console.clear();
 
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append("idE", localStorage.getItem("IdEmpresa"));
         formData.append("Operation", "1");
-        var miembros = this.miembros;
+        let miembros = this.miembros;
         $.ajax({
-            context: miembros,
+            context: this,
             Origin: "http://localhost:3000",
             url: 'http://localhost:4000/equipo',
             type: 'POST',
@@ -64,60 +172,8 @@ export default class NuevoEquipo extends Component {
             success: function (respuesta) {
 
 
-                var addMember = (id, rol1) => {
-                    let obj = {
-                        Id: id,
-                        rol: rol1
-                    }
-                    
-                    let bandera=true;
-                    for(let item of this){
-                       // console.log(item);
-                        if(item.Id==obj.Id){
-                            
-                            bandera=false;
-                            break;
-                        }
 
-
-                    }
-
-
-                   // console.log(bandera);
-                    if (bandera) {
-                        this.push(obj);
-                       // console.log(this);
-                        return false;
-                    } else {
-                        alert("Miembro ya en la lista");
-                        return true;
-                    }
-
-
-
-
-
-
-                    return true;
-                }
-
-                var removeMember = (id) => {
-
-                    console.clear();
-                   //console.log(this);
-
-                   // console.log(this.length);
-                    var i;
-                    for (i = 0; i < this.length; i++) {
-                        //console.log(id + "==" + this[i].Id);
-                        if (id == this[i].Id) {
-                            this.splice(i, 1);
-                        }
-                    }
-
-
-                }
-
+                
 
 
 
@@ -130,33 +186,33 @@ export default class NuevoEquipo extends Component {
 
 
                 //console.log("Inciar Componentes");
-               
+
                 respuesta.map((item) => {
-                  //  console.log("map");
+                    //console.log("map");
                     //seleccionados
-                    var bodyS = document.getElementById("bodyS");
-                    var spanT;
-                    var trS;
-                    var tdN;
-                    var tdB;
-                    var buttonE;
+                    let bodyS = document.getElementById("bodyS");
+                    let spanT;
+                    let trS;
+                    let tdN;
+                    let tdB;
+                    let buttonE;
 
 
                     //Todos
-                    var tbodyME = document.getElementById("bodyT");
-                    var trE = document.createElement("tr");
-                    var tdNombre = document.createElement("td");
-                    var tdCorreo = document.createElement("td");
-                    var tdButton = document.createElement("td");
-                    var button = document.createElement("button");
+                    let tbodyME = document.getElementById("bodyT");
+                    let trE = document.createElement("tr");
+                    let tdNombre = document.createElement("td");
+                    let tdCorreo = document.createElement("td");
+                    let tdButton = document.createElement("td");
+                    let button = document.createElement("button");
 
                     button.setAttribute("value", JSON.stringify(item));
                     button.className = "btn-primary btn-sm";
                     button.addEventListener("click", (e) => {
-                      //  console.log(this);
-                        var caller = e.target;
-                        var data = JSON.parse(caller.value);
-                        if (!addMember(data._id, data.rol)) {
+                        //console.log(this);
+                        let caller = e.target;
+                        let data = JSON.parse(caller.value);
+                        if (!this.addMember(data._id, data.rol)) {
                             //creamos elemento
 
                             trS = document.createElement("tr");
@@ -175,12 +231,12 @@ export default class NuevoEquipo extends Component {
                             buttonE.setAttribute("value", JSON.stringify(data));
                             buttonE.appendChild(document.createTextNode("Eliminar"));
                             buttonE.addEventListener("click", (ev) => {
-                                var caller1 = ev.target;
-                                var data1 = JSON.parse(caller1.value);
-                               // console.log(data1);
-                                removeMember(data1._id);
-                                var padre = caller1.parentElement;
-                                var trP = padre.parentElement;
+                                let caller1 = ev.target;
+                                let data1 = JSON.parse(caller1.value);
+                                //console.log(data1);
+                                this.removeMember(data1._id);
+                                let padre = caller1.parentElement;
+                                let trP = padre.parentElement;
                                 trP.remove();
 
                             });
@@ -205,10 +261,50 @@ export default class NuevoEquipo extends Component {
                     trE.appendChild(tdCorreo);
                     trE.appendChild(tdButton);
 
-                    //console.log(document.getElementById("bodyS"));
+
 
 
                     tbodyME.appendChild(trE);
+                   // console.log(this.buscarMiembro(item._id));
+                    if(this.buscarMiembro(item._id)){
+                        //console.log(item._id);
+                        trS = document.createElement("tr");
+
+                        //Nombre
+                        tdN = document.createElement("td");
+                        spanT = document.createElement("span");
+                        spanT.className = "form-control";
+                        spanT = document.createTextNode(item.nombre);
+                        tdN.appendChild(spanT);
+                        trS.appendChild(tdN);
+
+                        //boton Eliminar
+                        buttonE = document.createElement("button");
+                        buttonE.className = "btn btn-danger";
+                        buttonE.setAttribute("value", JSON.stringify(item));
+                        buttonE.appendChild(document.createTextNode("Eliminar"));
+                        buttonE.addEventListener("click", (ev) => {
+                            let caller1 = ev.target;
+                            let data1 = JSON.parse(caller1.value);
+                            //console.log(data1);
+                            this.removeMember(data1._id);
+                            let padre = caller1.parentElement;
+                            let trP = padre.parentElement;
+                            trP.remove();
+
+                        });
+                        tdB = document.createElement("td");
+                        tdB.appendChild(buttonE);
+                        trS.appendChild(tdB);
+
+                        //tr
+                        bodyS.appendChild(trS);
+
+                    }
+
+                    
+
+
 
                 });
             }
@@ -219,49 +315,8 @@ export default class NuevoEquipo extends Component {
 
 
     }
-    ajax2 = () => {
 
-
-
-
-
-      //  console.log("--------Registro--------");
-
-        var formData = new FormData($("#Principal")[0]);
-
-        this.miembros.splice(0, 1);
-        var miembros=JSON.stringify(this.miembros);
-        formData.append("miembros", miembros);
-        formData.append("organizacion",localStorage.getItem("IdEmpresa"));
-        formData.append("Operation", 2);
-
-        $.ajax({
-            Origin: "http://localhost:3000",
-            url: 'http://localhost:4000/equipo',
-            type: 'POST',
-            data: formData,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (respuesta) {
-             //   console.log(respuesta);
-
-                if (respuesta != 3) {
-
-                    window.location.href = "/principal";
-
-
-                }
-                else {
-
-                }
-                //console.log(JSON.parse(respuesta));
-
-
-            }
-        });
-
+    Guardar = async () => {
 
     }
 
@@ -286,7 +341,7 @@ export default class NuevoEquipo extends Component {
 
                     <div id="layoutSidenav_content">
                         <div className="card shadow-lg border-0 rounded-lg mt-5" id="cards">
-                            <div className="card-header"><h3 className="text-center font-weight-light my-4">Crear Equipo</h3></div>
+                            <div className="card-header"><h3 className="text-center font-weight-light my-4">Editar Equipo</h3></div>
                             <div className="card-body">
                                 <form id="Principal">
                                     <div className="form-row">
@@ -342,7 +397,7 @@ export default class NuevoEquipo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={() => { this.ajax2() }}>Crear equipo</button></div>
+                                <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={() => { }}>Guardar</button></div>
                             </div>
                         </div>
                     </div>
