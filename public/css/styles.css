@@ -543,8 +543,8 @@ pre code {
   padding-right: 0.5rem;
   padding-left: 0.75rem;
   padding-top: 1rem;;
-  margin-right: 1rem;
-  margin-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 @media (min-width: 576px) {
   .container {

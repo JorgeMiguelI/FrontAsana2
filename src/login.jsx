@@ -11,7 +11,8 @@ function Login(props){
     const {register, errors}= useForm();
     const[datos, setDatos]= useState({
         correo: "",
-        password: ""
+        password: "",
+        tipo:""
     });
 
     const handleInputChange= async(event)=>{
@@ -29,7 +30,19 @@ function Login(props){
 
     const EnviarData= async(event)=>{
         event.preventDefault();//Quitamos el procesamiento automatico
-
+        
+        if(datos.correo.includes("@")){
+            await setDatos({
+                ...datos,
+                tipo: "1"
+            })
+        }
+        else{
+            await setDatos({
+                ...datos,
+                tipo: "2"
+            })
+        }
         //Validaciones
         if(datos.correo==""){
             document.getElementById("errCorreo").style.display="block";
@@ -92,7 +105,7 @@ function Login(props){
                                                 </div>
                                                 <form class="user" onSubmit={EnviarData}>
                                                     <div class="form-group">
-                                                        <input type="email" class="form-control form-control-user"
+                                                        <input type="text" class="form-control form-control-user"
                                                             id="inputEmailAddress" aria-describedby="emailHelp"
                                                             placeholder="Ingresa Usuario o Correo..."
                                                             name="correo"

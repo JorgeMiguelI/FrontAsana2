@@ -187,7 +187,7 @@ export default class NuevoProyecto extends Component {
         return (
             <div className="sb-nav-fixed">
 
-                <Topbar />
+                <Topbar history={this.props.history}/>
 
                 <div id="layoutSidenav">
 

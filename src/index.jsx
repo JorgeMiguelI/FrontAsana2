@@ -17,6 +17,8 @@ import DetallesProyecto from './DetallesProyecto';
 import Invitacion from './Invitcion';
 import DetallesEquipo from './DetallesEquipo';
 import EditarEquipo from './EditarEquipo'
+import Perfil from './Perfil';
+import EditarPerfil from './EditarPerfil'
 
 class App extends Component{
     render(){
@@ -37,7 +39,9 @@ class App extends Component{
                 <Route path="/Detallesproyecto/:id" component={DetallesProyecto}/>
                 <Route path="/DetallesEquipo/:id" component={DetallesEquipo}/>
                 <Route path="/EditarEquipo/:id" component={EditarEquipo}/>
-               
+                <Route path="/Perfil/:id" component={Perfil}/>
+                <Route path="/EditarPerfil" component={EditarPerfil}/>
+                
             </Router>
             
         

@@ -46,7 +46,7 @@ export default class Invitacion extends Component {
         return (
             <div className="sb-nav-fixed">
 
-                <Topbar />
+                <Topbar history={this.props.history}/>
 
                 <div id="layoutSidenav">
 

@@ -317,6 +317,23 @@ export default class EditarEquipo extends Component {
     }
 
     Guardar = async () => {
+        let info= {
+            id: this.idEquipo,
+            miembros: [JSON.stringify(this.miembros)] ,
+            nombre: document.getElementById("inputNombre").value,
+            estado: "A",
+            descripcion:document.getElementById("inputDescripcion").value
+            
+        };
+        const res = await axios.put("http://localhost:4000/UpdateTeam", {
+                data: info
+            });
+        const result= await res.data;
+        if(result.msg=="error"){
+            //No se pudo actualizar
+        }else{
+            this.props.history.push("/DetallesEquipo/"+this.idEquipo);
+        }
 
     }
 
@@ -330,7 +347,7 @@ export default class EditarEquipo extends Component {
         return (
             <div className="sb-nav-fixed">
 
-                <Topbar />
+                <Topbar history={this.props.history}/>
 
                 <div id="layoutSidenav">
 
@@ -397,7 +414,7 @@ export default class EditarEquipo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={() => { }}>Guardar</button></div>
+                                <div className="form-group mt-4 mb-0"><button id="crearP" className="btn btn-block" onClick={this.Guardar}>Guardar</button></div>
                             </div>
                         </div>
                     </div>

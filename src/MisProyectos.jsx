@@ -27,12 +27,12 @@ export default class MisTareas extends Component {
         return (
             <div className="sb-nav-fixed">
 
-                <Topbar />
+                <Topbar history={this.props.history} />
 
                 <div id="layoutSidenav">
 
 
-                    <Barra />
+                    <Barra history={this.props.history}/>
 
 
 

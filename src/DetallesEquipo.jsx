@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom';
 
 import Barra from './bar';
 import Topbar from './topbar';
+import Proyecto from './Proyecto';
+import Miembro from './Miembro';
 
 
 
@@ -16,24 +18,62 @@ export default class DetallesEquipo extends Component {
 
     idEquipo;
     componentDidMount() {
+        if (document.getElementById("Proyectos").hasChildNodes()) {
+            for (let node of document.getElementById("Proyectos").childNodes) {
+                ReactDOM.unmountComponentAtNode(node);
+                node.remove();
+            }
+        }
+
+        if (document.getElementById("MiembrosDiv").hasChildNodes()) {
+            for (let node of document.getElementById("MiembrosDiv").childNodes) {
+                ReactDOM.unmountComponentAtNode(node);
+                node.remove();
+            }
+        }
         let undefined = void (0);
         if (this.props.match.params.id != undefined) {
             this.idEquipo = this.props.match.params.id;
             this.TraerInfoEquipo();
+            this.TraerProyectosDeEquipo();
+            this.TraerMiembrosDeEquipo();
         }
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
+
+        if (document.getElementById("Proyectos").hasChildNodes()) {
+            for (let node of document.getElementById("Proyectos").childNodes) {
+                ReactDOM.unmountComponentAtNode(node);
+                node.remove();
+            }
+        }
+
+        if (document.getElementById("MiembrosDiv").hasChildNodes()) {
+            for (let node of document.getElementById("MiembrosDiv").childNodes) {
+                ReactDOM.unmountComponentAtNode(node);
+                node.remove();
+            }
+        }
+
         let undefined = void (0);
         if (this.props.match.params.id != undefined) {
             this.idEquipo = this.props.match.params.id;
             this.TraerInfoEquipo();
+            this.TraerProyectosDeEquipo();
+            this.TraerMiembrosDeEquipo();
         }
+
+
+
+
+
+
     }
 
 
-    EditarEquipo=()=>{
-        this.props.history.push("/EditarEquipo/"+this.idEquipo);
+    EditarEquipo = () => {
+        this.props.history.push("/EditarEquipo/" + this.idEquipo);
     }
 
     TraerInfoEquipo = async () => {
@@ -45,26 +85,137 @@ export default class DetallesEquipo extends Component {
             //No se pudo traer el equipos
         } else {
             Equipo = result;
-            document.getElementById("NombreEquipo").setAttribute("value",Equipo.nombre);
-            if(document.getElementById("inputDescripcion").hasChildNodes()){
-                for(let node of document.getElementById("inputDescripcion").childNodes){
+            document.getElementById("NombreEquipo").setAttribute("value", Equipo.nombre);
+            if (document.getElementById("inputDescripcion").hasChildNodes()) {
+                for (let node of document.getElementById("inputDescripcion").childNodes) {
                     node.remove();
                 }
             }
-            if(Equipo.descripcion!=void(0)){
-                
+            if (Equipo.descripcion != void (0)) {
+
                 document.getElementById("inputDescripcion").appendChild(document.createTextNode(Equipo.descripcion));
             }
 
         }
-        console.log(Equipo)
+
+        // console.log(Equipo)
+    }
+
+
+
+    TraerProyectosDeEquipo = async () => {
+
+
+        if (document.getElementById("Proyectos").hasChildNodes()) {
+            for (let node of document.getElementById("Proyectos").childNodes) {
+                ReactDOM.unmountComponentAtNode(node);
+                node.remove();
+
+            }
+        }
+
+
+        let IdEquipo = this.idEquipo;
+        let proyectos = new Array();
+        const res = await axios.get("http://localhost:4000/GetProyectosByTeam/" + IdEquipo);
+        const data = await res.data;
+        if (data.msg == "error") {
+            alert("Error al traer los equipos");
+        } else {
+            proyectos = data;
+            let divContenedor;
+            let divProyectos = document.getElementById("Proyectos");
+            let proyectoObj;
+            proyectos.map((proyecto) => {
+                divContenedor = document.createElement("div");
+                divContenedor.className = "ProyectoE";
+                divContenedor.setAttribute("id", proyecto._id);
+
+                divProyectos.appendChild(divContenedor);
+
+                proyectoObj = <Proyecto Info={proyecto} history={this.props.history} />
+
+                ReactDOM.render(proyectoObj, divContenedor);
+
+
+
+            });
+
+        }
+
+
+        //console.log(data);
+    }
+
+    TraerMiembrosDeEquipo = async () => {
+
+        // console.log(document.getElementById("MiembrosDiv"));
+
+        if (document.getElementById("MiembrosDiv").hasChildNodes()) {
+            for (let node of document.getElementById("MiembrosDiv").childNodes) {
+                ReactDOM.unmountComponentAtNode(node);
+                node.remove();
+
+            }
+        }
+
+
+
+        let idEquipo = this.idEquipo;
+        const res = await axios.get("http://localhost:4000/GetMiembrosByTeam/" + idEquipo);
+        const data = await res.data;
+
+        if (data.msg == "error") {
+            alert("No se pudieron traer los miembros");
+        } else {
+            let miembrosDiv = document.getElementById("MiembrosDiv");
+            let contenedor;
+            let miembroObj;
+            data.map((miembro) => {
+                contenedor = document.createElement("div");
+                contenedor.setAttribute("id", miembro._id);
+
+                miembrosDiv.appendChild(contenedor);
+                miembroObj = <Miembro Info={miembro} history={this.props.history} />
+                ReactDOM.render(miembroObj, contenedor);
+            })
+        }
+
+    }
+
+    EliminarProyecto=async()=>{
+        let idEquipo= this.idEquipo
+        let ListaProyectosEliminar=[];
+        //traemos los proyectos a eliminar asociados a ese equipo
+        const res= await axios.get("http://localhost:4000/GetProyectosByTeam/"+idEquipo);
+        const data= await res.data;
+        if(data.msg=="error"){
+            alert("No se pudo eliminar el equipo");
+        }else{
+            //Borramos los proyectos asignados al equipo con sus respectivas Tareas;
+            ListaProyectosEliminar = data;
+            for(let project of ListaProyectosEliminar){
+                //console.log(team);
+                let idProyecto= project._id;
+                const resp= await axios.delete("http://localhost:4000/DeleteProyecto/"+idProyecto);
+            }
+            //Ahora eliminamos el Equipo
+            const resp= await axios.delete("http://localhost:4000/DeleteEquipo/"+ idEquipo);
+            const result= resp.data;
+            if(result.msg=="error"){
+                alert("Error al eliminar el Equipo")
+            }else if (result.msg=="Ok"){
+                this.props.history.push("/principal");
+            }
+    
+        }
     }
 
     render() {
         return (
             <div className="sb-nav-fixed">
 
-                <Topbar />
+                <Topbar history={this.props.history}/>
 
                 <div id="layoutSidenav">
 
@@ -86,7 +237,7 @@ export default class DetallesEquipo extends Component {
                                     </div>
                                     <input type="text" className="form-control" aria-label="NombreEquipo" aria-describedby="basic-addon1" id="NombreEquipo" readOnly />
                                     <button className="btn btn-primary" onClick={this.EditarEquipo}>Editar</button>
-                                    <button className="btn btn-danger" >Eliminar</button>
+                                    <button className="btn btn-danger" onClick={this.EliminarProyecto}>Eliminar</button>
 
                                 </div>
                             </div>
@@ -100,10 +251,7 @@ export default class DetallesEquipo extends Component {
                                 <div className="col-9">
                                     <h3> <label htmlFor="InputDescripcion" className="small mb-1">Proyectos</label></h3>
                                     <div id="Proyectos" className="d-flex">
-                                        <div className="ProyectoE"><h6> <font color="red"><i className="fas fa-archive"></i></font><br />proyecto</h6></div>
-                                        <div className="ProyectoE"><h6> <font color="red"><i className="fas fa-archive"></i></font><br />proyecto</h6></div>
-                                        <div className="ProyectoE"><h6> <font color="red"><i className="fas fa-archive"></i></font><br />proyecto</h6></div>
-                                        <div className="ProyectoE"><h6> <font color="red"><i className="fas fa-archive"></i></font><br />proyecto</h6></div>
+
                                     </div>
                                 </div>
                             </div>
@@ -111,14 +259,7 @@ export default class DetallesEquipo extends Component {
                                 <div className="col-3">
                                     <h3><label htmlFor="" className="small mb-1">Miembros</label></h3>
                                     <div id="MiembrosDiv">
-                                        <div>
-                                            <a >Edgar Roberto Sotelo Arceo</a>
-                                            <small id="emailHelp" class="form-text text-muted">al221220@edu.uaa.mx</small>
-                                        </div>
-                                        <div>
-                                            <a >Edgar Roberto Sotelo Arceo</a>
-                                            <small id="emailHelp" class="form-text text-muted">al221220@edu.uaa.mx</small>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

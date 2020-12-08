@@ -65,6 +65,12 @@ export default class Topbar extends Component {
             NombreUsuarioTag.appendChild(document.createTextNode(data.nombre));
             CorreoUsuarioTag.appendChild(document.createTextNode(data.correo));
 
+            NombreUsuarioTag.addEventListener("click",()=>{
+                this.props.history.push("/Perfil/"+data._id);
+            });
+            CorreoUsuarioTag.addEventListener("click",()=>{
+                this.props.history.push("/Perfil/"+data._id);
+            });
         }
     }
 
@@ -189,8 +195,8 @@ export default class Topbar extends Component {
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" id="userDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown1">
-                            <a className="dropdown-item" id="NombreUsuario"></a>
-                            <a className="dropdown-item" id="CorreoUsuario"></a>
+                            <a className="dropdown-item MiembroInf" id="NombreUsuario" ></a>
+                            <a className="dropdown-item MiembroInf" id="CorreoUsuario"></a>
                             <div className="dropdown-divider"></div>
                             <Link className="dropdown-item" to="/" onClick={this.LogOut}>Logout</Link>
                         </div>
