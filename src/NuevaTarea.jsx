@@ -257,7 +257,7 @@ export default function NuevaTarea(props) {
     return (
         <div className="sb-nav-fixed">
 
-            <Topbar history={this.props.history} />
+            <Topbar history={props.history} />
 
             <div id="layoutSidenav">
 

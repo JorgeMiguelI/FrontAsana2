@@ -76,6 +76,7 @@ function Login(props){
             console.log(data);
             localStorage.setItem("IdEmpresa",data.organizacion);
             localStorage.setItem("ID",data._id);
+            localStorage.setItem("Rol",data.rol);
            props.history.push("/principal");
         }
         

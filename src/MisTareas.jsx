@@ -106,9 +106,9 @@ export default class MisTareas extends Component {
                         }
                         //  console.log(InfoTarea);
                         let bandera=fechaTarea.getFullYear()>fecha_actual.getFullYear()?true:false;
-                     /*  console.log(tiempo);
-                        console.log(InfoTarea.InfoTarea.fecha_entrega);*/
-                        if (tiempo <= 0 && !bandera || tiempo > 10 && !bandera) {
+                      console.log(tiempo);
+                        console.log(InfoTarea.InfoTarea.fecha_entrega);
+                        if (tiempo <= 0 && !bandera ) {
                             
                             if(item.estado=="A"){
                                 Hoy.push(InfoTarea);
@@ -154,11 +154,11 @@ export default class MisTareas extends Component {
                     });
 
                 });
-               // console.log(Recientes);
-                /*console.log(Hoy);
+               console.log(Recientes);
+                console.log(Hoy);
                console.log(MasTarde);
                //console.log(data);
-*/
+
 
 
                 let divTareas = document.getElementById("accordionExample");

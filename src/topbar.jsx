@@ -6,7 +6,7 @@ import axios from 'axios';
 import { isElementOfType } from 'react-dom/test-utils';
 
 
-
+import logo from './Img/Logo.png';
 
 
 
@@ -156,7 +156,7 @@ export default class Topbar extends Component {
     render() {
         return (
             <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <Link className="navbar-brand" to="/principal">Start Bootstrap</Link>
+                <Link className="navbar-brand" to="/principal"><img src={logo} id="ImgAsana"/></Link>
                 <button className="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" ><i className="fas fa-bars"></i></button>
 
                 <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">

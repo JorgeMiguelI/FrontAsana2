@@ -280,7 +280,7 @@ export default class Principal extends Component {
                             </div>
                             <div className="row" style={{ "padding": "1rem" }}>
                                 <div className="col-md 3">
-                                <h6> <font color="red"><i className="fas fa-archive"></i></font><br/>proyecto</h6>
+                                
                                 </div>
                             </div>
 

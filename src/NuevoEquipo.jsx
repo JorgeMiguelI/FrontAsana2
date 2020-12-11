@@ -130,7 +130,7 @@ export default class NuevoEquipo extends Component {
 
 
                 //console.log("Inciar Componentes");
-               
+               console.log(respuesta);
                 respuesta.map((item) => {
                   //  console.log("map");
                     //seleccionados

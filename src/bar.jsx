@@ -6,13 +6,33 @@ import swal from 'sweetalert';
 
 export default class Barra extends Component {
 
+    constructor(){
+        super();
+        
+    }
+
+    componentWillMount(){
+        
+    }
     componentDidMount() {
-        this.getProyectos();
-        this.TraerEquipos();
-        this.TraerUsuario();
+        
         if (localStorage.getItem("Rol") != "D") {
             document.getElementById("LinkColaboradores").classList.add("d-none");
             document.getElementById("LinkColaboradores1").classList.add("d-none");
+        }
+        if (localStorage.getItem("Rol") == "D") {
+            document.getElementById("LinkColaboradores").classList.remove("d-none");
+            document.getElementById("LinkColaboradores1").classList.remove("d-none");
+        }
+        this.getProyectos();
+        this.TraerEquipos();
+        this.TraerUsuario();
+       
+    }
+    componentDidUpdate(){
+        if (localStorage.getItem("Rol") == "D") {
+            document.getElementById("LinkColaboradores").classList.remove("d-none");
+            document.getElementById("LinkColaboradores1").classList.remove("d-none");
         }
     }
     
@@ -128,7 +148,7 @@ export default class Barra extends Component {
 
             }   
             document.getElementById("InfoUser").appendChild(document.createTextNode(infoUser));
-
+           
         }
     }
 

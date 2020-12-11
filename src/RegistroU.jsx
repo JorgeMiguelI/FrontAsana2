@@ -81,7 +81,7 @@ export default function RegistroU(props){
         setState({progreso:100});
         
 
-        document.getElementById("ProgressBar").style.width=100;
+       
 
 
         e.preventDefault();
@@ -92,7 +92,7 @@ export default function RegistroU(props){
             
             
             setState({progreso:300});
-            document.getElementById("ProgressBar").style.width=300;
+            
             $.ajax({
                 Origin: "http://localhost:3000",
                 url: 'http://localhost:4000/registro',
@@ -106,9 +106,9 @@ export default function RegistroU(props){
 
                     console.log(respuesta);
 
-                    if(respuesta=="Registro Correcto"){
+                    if(respuesta=="Usuario Guardado" || respuesta=="Registro Correcto"){
                         setState({progreso:600});
-                        document.getElementById("ProgressBar").style.width=600;
+                        
                         setTimeout(function(){ 
                             props.history.push("/");
                          }, 3000);
@@ -252,8 +252,9 @@ export default function RegistroU(props){
                                                             <small id="contraseñaIncorrecta" className="form-text text-muted alert-danger d-none">Contraseña incorrecta</small>
                                                     </div>
                                                 </div>
-                                                <button className="btn btn-primary btn-block" onClick={ajax}>Crear Cuenta</button>
+                                               
                                             </form>
+                                            <button className="btn btn-primary btn-block" onClick={ajax} form="Principal">Crear Cuenta</button>
                                             <hr/>
                                             <div class="text-center">
                                                 <a class="small" href="#">Olvidaste tu contraseña?</a>
